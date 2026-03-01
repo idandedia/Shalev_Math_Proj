@@ -27,7 +27,7 @@ THEMES = {
         "bg_css": "linear-gradient(160deg, #2f9d4e 0%, #37b356 100%)",
     },
     "ice_princess": {
-        "label": "❄️ אלזה לבנות",
+        "label": "❄️ אלזה",
         "bg_url": "https://images.pexels.com/photos/7100170/pexels-photo-7100170.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "bg_css": "linear-gradient(160deg, #6fb9ff 0%, #d9f1ff 100%)",
     },
@@ -58,7 +58,7 @@ THEMES = {
     },
     "dinosaur": {
         "label": "🦖 דינוזאורים",
-        "bg_url": "https://images.pexels.com/photos/163077/mario-yoschi-figures-funny-163077.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_url": "https://images.pexels.com/photos/9753/dinosaur.jpg?auto=compress&cs=tinysrgb&w=1600",
         "bg_css": "linear-gradient(155deg, #7aa55b 0%, #b2cd7f 100%)",
     },
     "robot": {
@@ -1047,12 +1047,21 @@ with title_col:
     st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
 with theme_col:
     theme_keys = list(THEMES.keys())
-    st.selectbox(
+    theme_labels = [THEMES[key]["label"] for key in theme_keys]
+    current_theme_label = THEMES[st.session_state.selected_theme]["label"]
+    selected_theme_label = st.radio(
         "בחרו רקע",
-        options=theme_keys,
-        format_func=lambda key: THEMES[key]["label"],
-        key="selected_theme",
+        options=theme_labels,
+        index=theme_labels.index(current_theme_label),
+        key="theme_selector_radio",
+        label_visibility="visible",
     )
+    selected_theme_key = next(
+        key for key in theme_keys if THEMES[key]["label"] == selected_theme_label
+    )
+    if selected_theme_key != st.session_state.selected_theme:
+        st.session_state.selected_theme = selected_theme_key
+        st.rerun()
 
 st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">חיבור, חיסור וכפל עד 100 • מתאים לכיתות ב׳</div>', unsafe_allow_html=True)
