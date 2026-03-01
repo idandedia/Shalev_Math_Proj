@@ -1,0 +1,45 @@
+מדריך מהיר: איך לבצע PUSH כדי שהשינוי ישתקף בפרודקשן
+
+כל פעם שסיימת שינוי:
+
+1) בדיקת מצב
+   git status --short --branch
+
+2) הוספת קבצים
+   git add .
+
+3) יצירת קומיט
+   git commit -m "תיאור קצר של השינוי"
+
+4) סנכרון לפני דחיפה
+   git pull --rebase origin main
+
+5) דחיפה ל-GitHub
+   git push origin main
+
+6) אימות שהכול סונכרן
+   git status --short --branch
+   (צריך לראות: main...origin/main בלי שינויים)
+
+אם התנתקת באמצע או שהפקודה נכשלה:
+
+A) בדוק מה המצב
+   git status
+
+B) אם יש קונפליקט בזמן rebase:
+   - פותרים קונפליקט בקבצים
+   - מוסיפים את הקבצים המתוקנים:
+     git add .
+   - ממשיכים:
+     git rebase --continue
+   - ואז דוחפים:
+     git push origin main
+
+C) אם רוצים לבטל rebase ולהתחיל מחדש:
+   git rebase --abort
+   git pull --rebase origin main
+   git push origin main
+
+טיפ חשוב:
+- הודעת "credential-cache unavailable" ב-Windows יכולה להופיע,
+  אבל אם בסוף מופיע "main -> main" זה אומר שה-PUSH הצליח.
