@@ -507,14 +507,14 @@ def apply_theme_style(theme_key: str):
     colorful_like_themes = {"rainbow", "unicorn", "castle", "basketball"}
 
     if theme_key in dark_like_themes:
-        overlay = "rgba(7, 18, 28, 0.46)"
-        text_color = "#0e365d"
-        muted_text_color = "#2f5f8c"
-        card_bg = "rgba(255, 255, 255, 0.93)"
-        shell_bg = "linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(244,249,255,0.94) 100%)"
-        border_color = "rgba(148, 196, 245, 0.85)"
-        button_bg = "linear-gradient(180deg, #ecf5ff 0%, #d9ebff 100%)"
-        button_text = "#124271"
+        overlay = "rgba(4, 10, 20, 0.62)"
+        text_color = "#eef5ff"
+        muted_text_color = "#c7d9f1"
+        card_bg = "rgba(18, 34, 60, 0.78)"
+        shell_bg = "linear-gradient(180deg, rgba(15,28,50,0.85) 0%, rgba(19,35,62,0.8) 100%)"
+        border_color = "rgba(122, 170, 226, 0.78)"
+        button_bg = "linear-gradient(180deg, #65b0ff 0%, #3e8fe7 100%)"
+        button_text = "#ffffff"
     elif theme_key in colorful_like_themes:
         overlay = "rgba(255, 255, 255, 0.22)"
         text_color = "#1f3f63"
@@ -573,6 +573,22 @@ def apply_theme_style(theme_key: str):
             background: var(--ux-shell-bg) !important;
             border-color: var(--ux-border) !important;
         }}
+        .app-shell,
+        .app-shell p,
+        .app-shell li,
+        .app-shell label,
+        .app-shell h1,
+        .app-shell h2,
+        .app-shell h3,
+        .app-shell h4,
+        .app-shell h5,
+        .app-shell h6,
+        .app-shell .stMarkdown,
+        .app-shell .stRadio,
+        .app-shell .stNumberInput,
+        .app-shell .stTextInput {{
+            color: var(--ux-text) !important;
+        }}
         .school-title,
         .main-title,
         .subtitle,
@@ -614,6 +630,10 @@ def apply_theme_style(theme_key: str):
             border-color: var(--ux-border) !important;
             background: var(--ux-button-bg) !important;
             color: var(--ux-button-text) !important;
+        }}
+        .stNumberInput label,
+        .stTextInput label {{
+            color: var(--ux-text) !important;
         }}
         </style>
         """,
