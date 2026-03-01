@@ -225,6 +225,10 @@ st.markdown(
         font-weight: 800;
         margin-top: 0.4rem;
     }
+    .answer-input-wrap {
+        max-width: 210px;
+        margin: 0 auto 0.15rem auto;
+    }
     .success-card {
         padding: 0.74rem 0.9rem;
         border-radius: 12px;
@@ -515,6 +519,7 @@ def reset_mode(mode: str):
     st.session_state[mkey(mode, "mascot_idx")] = random.randint(0, len(CHARACTERS) - 1)
     st.session_state[mkey(mode, "help_used_in_stage")] = False
     st.session_state[mkey(mode, "help_confirm_pending")] = False
+    st.session_state[mkey(mode, "help_hint_text")] = ""
     st.session_state[mkey(mode, "feedback_type")] = ""
     st.session_state[mkey(mode, "feedback_text")] = ""
     st.session_state[mkey(mode, "current_exercise")] = generate_exercise(mode, 1)
@@ -680,6 +685,7 @@ def next_stage_or_question(mode: str):
         st.session_state[mkey(mode, "current_in_stage")] = 0
         st.session_state[mkey(mode, "help_used_in_stage")] = False
         st.session_state[mkey(mode, "help_confirm_pending")] = False
+        st.session_state[mkey(mode, "help_hint_text")] = ""
         st.session_state[mkey(mode, "feedback_type")] = "success"
         st.session_state[mkey(mode, "feedback_text")] = (
             f"מעולה! עולים לשלב {st.session_state[mkey(mode, 'level')]} 🚀"
@@ -704,6 +710,7 @@ def render_mode_tab(mode: str):
     finished = st.session_state[mkey(mode, "finished")]
     help_used_in_stage = st.session_state.get(mkey(mode, "help_used_in_stage"), False)
     help_confirm_pending = st.session_state.get(mkey(mode, "help_confirm_pending"), False)
+    help_hint_text = st.session_state.get(mkey(mode, "help_hint_text"), "")
 
     mascot_idx_key = mkey(mode, "mascot_idx")
     if mascot_idx_key not in st.session_state:
@@ -777,8 +784,7 @@ def render_mode_tab(mode: str):
         with confirm_col:
             if st.button("כן, קח/י רמז", key=f"confirm_hint_{mode}", use_container_width=True):
                 exercise_for_hint = st.session_state[mkey(mode, "current_exercise")]
-                st.session_state[mkey(mode, "feedback_type")] = "hint"
-                st.session_state[mkey(mode, "feedback_text")] = build_hint(exercise_for_hint)
+                st.session_state[mkey(mode, "help_hint_text")] = build_hint(exercise_for_hint)
                 st.session_state[mkey(mode, "help_used_in_stage")] = True
                 st.session_state[mkey(mode, "help_confirm_pending")] = False
                 queue_sound("success")
@@ -790,6 +796,8 @@ def render_mode_tab(mode: str):
 
     if help_used_in_stage:
         st.info("העזרה לשלב הזה כבר נוצלה ✅")
+    if help_hint_text:
+        st.markdown(f'<div class="hint-card">{help_hint_text}</div>', unsafe_allow_html=True)
 
     exercise = st.session_state[mkey(mode, "current_exercise")]
     if exercise["op"] == "+":
@@ -806,26 +814,24 @@ def render_mode_tab(mode: str):
     st.markdown('<div class="tiny-note">קחו נשימה, תחשבו לאט, ותנו תשובה 💡</div>', unsafe_allow_html=True)
 
     with st.form(f"answer_form_{mode}", clear_on_submit=True):
-        answer_raw = st.text_input(
+        st.markdown('<div class="answer-input-wrap">', unsafe_allow_html=True)
+        answer_raw = st.number_input(
             "מה התשובה?",
-            value="",
+            value=None,
+            step=1,
+            format="%d",
             key=f"input_{mode}",
         )
+        st.markdown('</div>', unsafe_allow_html=True)
         submitted = st.form_submit_button("בדיקה", use_container_width=True)
 
     if submitted:
-        answer_text = answer_raw.strip()
-        if not answer_text:
+        if answer_raw is None:
             st.session_state[mkey(mode, "feedback_type")] = "error"
             st.session_state[mkey(mode, "feedback_text")] = "צריך להקליד תשובה לפני בדיקה 🙂"
             st.rerun()
 
-        try:
-            user_answer = int(answer_text)
-        except ValueError:
-            st.session_state[mkey(mode, "feedback_type")] = "error"
-            st.session_state[mkey(mode, "feedback_text")] = "אפשר לכתוב רק מספר שלם ✍️"
-            st.rerun()
+        user_answer = int(answer_raw)
 
         if user_answer == exercise["answer"]:
             queue_sound("success")
@@ -855,8 +861,6 @@ def render_mode_tab(mode: str):
             st.markdown(f'<div class="success-card pulse-success">{feedback_text}</div>', unsafe_allow_html=True)
         if feedback_type == "error":
             st.markdown(f'<div class="error-card">{feedback_text}</div>', unsafe_allow_html=True)
-        if feedback_type == "hint":
-            st.markdown(f'<div class="hint-card">{feedback_text}</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
