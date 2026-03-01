@@ -1,6 +1,10 @@
 import random
+from pathlib import Path
+
 import streamlit as st
 import streamlit.components.v1 as components
+
+TOTAL_LEVELS = 10
 
 st.set_page_config(page_title="ב'1 בית ספר אפרים צמח", page_icon="🧮", layout="centered")
 
@@ -14,39 +18,39 @@ st.markdown(
     }
     .block-container {
         max-width: 500px;
-        padding-top: 0.9rem;
-        padding-left: 0.6rem;
-        padding-right: 0.6rem;
+        padding-top: 0.8rem;
+        padding-left: 0.55rem;
+        padding-right: 0.55rem;
     }
     .app-shell {
         border-radius: 24px;
-        padding: 1.1rem 1.1rem 1.3rem 1.1rem;
+        padding: 1rem 1rem 1.2rem 1rem;
         background: linear-gradient(180deg, #ffffff 0%, #f6fbff 65%, #f3f9ff 100%);
         border: 1px solid #d5e8ff;
         box-shadow: 0 16px 34px rgba(38, 85, 145, 0.16);
     }
     .school-title {
         text-align: center;
-        font-size: 1.05rem;
+        font-size: 1.02rem;
         font-weight: 800;
         color: #1f4e79;
-        margin-bottom: 0.35rem;
+        margin-bottom: 0.25rem;
     }
     .main-title {
-        font-size: 1.9rem;
-        font-weight: 800;
+        font-size: 1.82rem;
+        font-weight: 900;
         color: #123f70;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.14rem;
         text-align: center;
     }
     .subtitle {
-        font-size: 1.05rem;
+        font-size: 0.98rem;
         color: #355c7d;
-        margin-bottom: 0.9rem;
+        margin-bottom: 0.72rem;
         text-align: center;
     }
     .top-badge {
-        margin: 0.5rem auto 0.8rem auto;
+        margin: 0.45rem auto 0.8rem auto;
         width: fit-content;
         padding: 0.35rem 0.8rem;
         border-radius: 999px;
@@ -54,10 +58,10 @@ st.markdown(
         border: 1px solid #c8e3ff;
         color: #285d90;
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
     .stage-card {
-        padding: 0.9rem 1rem;
+        padding: 0.82rem 0.88rem;
         border-radius: 16px;
         background: linear-gradient(90deg, #ecf6ff 0%, #f7fbff 100%);
         border: 1px solid #cfe6ff;
@@ -65,14 +69,14 @@ st.markdown(
         box-shadow: 0 4px 10px rgba(66, 116, 171, 0.08);
     }
     .exercise-box {
-        font-size: 2.2rem;
-        font-weight: 800;
+        font-size: 2.05rem;
+        font-weight: 900;
         text-align: center;
-        padding: 0.9rem;
+        padding: 0.82rem;
         border-radius: 18px;
         background: linear-gradient(180deg, #fff8dc 0%, #fff2bf 100%);
         border: 2px dashed #ffc85c;
-        margin: 0.8rem 0;
+        margin: 0.7rem 0;
     }
     .pulse-success {
         animation: pulseGlow 0.7s ease;
@@ -83,62 +87,45 @@ st.markdown(
         100% { transform: scale(1); box-shadow: 0 0 0 rgba(101, 214, 126, 0.1); }
     }
     .error-card {
-        padding: 0.8rem 1rem;
+        padding: 0.74rem 0.9rem;
         border-radius: 12px;
         background: #ffe8e8;
         border: 1px solid #ffb3b3;
         color: #7a1f1f;
-        font-weight: 600;
+        font-weight: 700;
         margin-top: 0.4rem;
     }
     .success-card {
-        padding: 0.8rem 1rem;
+        padding: 0.74rem 0.9rem;
         border-radius: 12px;
         background: #e7fce8;
         border: 1px solid #b8e8bd;
         color: #1f6b2a;
-        font-weight: 700;
+        font-weight: 800;
         margin-top: 0.4rem;
-    }
-    .character {
-        font-size: 3.2rem;
-        text-align: center;
-        margin: 0.2rem 0 0.4rem 0;
     }
     .tiny-note {
         color: #4d6a85;
         font-size: 0.95rem;
         text-align: center;
+        margin-bottom: 0.4rem;
     }
-    .side-strip {
-        position: fixed;
-        top: 95px;
-        z-index: 1;
-        width: 64px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        align-items: center;
-        pointer-events: none;
-        opacity: 0.95;
+    .side-cta {
+        text-align: center;
+        font-size: 0.84rem;
+        color: #255f8e;
+        font-weight: 700;
+        margin-top: 0.2rem;
     }
-    .side-left {
-        left: 8px;
-    }
-    .side-right {
-        right: 8px;
-    }
-    .side-char {
-        width: 54px;
-        height: 54px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 14px;
-        background: #ffffff;
-        border: 1px solid #d6e8ff;
-        box-shadow: 0 6px 14px rgba(51, 88, 143, 0.14);
-        font-size: 1.6rem;
+    .side-msg {
+        text-align: center;
+        border-radius: 12px;
+        padding: 0.55rem 0.75rem;
+        background: #eef8ff;
+        border: 1px solid #cfe8ff;
+        color: #1d4d79;
+        font-weight: 700;
+        margin-bottom: 0.55rem;
     }
     .section-title {
         text-align: center;
@@ -150,7 +137,7 @@ st.markdown(
         border: 1px solid #9ec8ff;
         background: linear-gradient(180deg, #dff0ff 0%, #cde7ff 100%);
         color: #143f6b;
-        font-weight: 700;
+        font-weight: 800;
         transition: all 0.18s ease;
     }
     .stButton > button:hover,
@@ -163,25 +150,24 @@ st.markdown(
         font-weight: 700;
         color: #204b75;
     }
+    button[data-baseweb="tab"] {
+        border-radius: 10px 10px 0 0 !important;
+        font-weight: 800 !important;
+    }
     @media (max-width: 560px) {
         .block-container {
             max-width: 420px;
-            padding-left: 0.4rem;
-            padding-right: 0.4rem;
+            padding-left: 0.36rem;
+            padding-right: 0.36rem;
         }
         .main-title {
-            font-size: 1.55rem;
+            font-size: 1.45rem;
         }
         .subtitle {
-            font-size: 0.92rem;
+            font-size: 0.9rem;
         }
         .exercise-box {
-            font-size: 1.9rem;
-        }
-    }
-    @media (max-width: 1050px) {
-        .side-strip {
-            display: none;
+            font-size: 1.82rem;
         }
     }
     </style>
@@ -189,65 +175,112 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+MODE_TITLES = {
+    "add_sub": "➕➖ חיבור וחיסור",
+    "mul": "✖️ כפל",
+}
+
 CHARACTERS = [
-    ("🦊", "שועל חכם"),
-    ("🐼", "פנדה שמחה"),
-    ("🐸", "צפרדע קופצת"),
-    ("🦁", "אריה אמיץ"),
-    ("🐧", "פינגווין מצחיק"),
-    ("🐨", "קואלה רגוע"),
-    ("🦄", "חד-קרן קסום"),
-    ("🐯", "נמר מהיר"),
+    ("🧒", "יוסי האלוף"),
+    ("👧", "נועה החכמה"),
+    ("🧑", "אורי המהיר"),
+    ("👦", "דוד הכוכב"),
+    ("👧", "שירה המצטיינת"),
+    ("🧒", "נועם הסקרן"),
+]
+
+LOGO_CANDIDATES = [
+    "school_logo.png",
+    "school_logo.jpg",
+    "school_logo.jpeg",
+    "logo.png",
+    "logo.jpg",
+    "assets/school_logo.png",
+    "assets/school_logo.jpg",
+    "assets/logo.png",
+]
+
+KIDS_MESSAGES = [
+    "חבורת הילדים שולחת לך כוח! 💙",
+    "איזה יופי של ריכוז! ממשיכים! ⭐",
+    "יאללה כיתה ב׳ — אתם תותחים! 🏆",
+]
+
+ALIEN_MESSAGES = [
+    "החייזר שלח בונוס אומץ! 🚀",
+    "👽 אומר: עוד תרגיל ואת/ה אלוף/ה!",
+    "קרן חללית של הצלחה בדרך אליך! ✨",
 ]
 
 
-def level_settings(level: int):
-    if level <= 5:
-        return {"max_num": 20, "ops": ["+"], "count": 3}
-    if level <= 10:
-        return {"max_num": 50, "ops": ["+", "-"], "count": 3}
-    if level <= 15:
-        return {"max_num": 80, "ops": ["+", "-"], "count": 4}
-    return {"max_num": 100, "ops": ["+", "-"], "count": 5}
+def mkey(mode: str, name: str) -> str:
+    return f"{mode}_{name}"
 
 
-def generate_exercise(level: int):
-    settings = level_settings(level)
-    max_num = settings["max_num"]
-    op = random.choice(settings["ops"])
+def find_logo_path() -> str | None:
+    base = Path(__file__).resolve().parent
+    for relative_path in LOGO_CANDIDATES:
+        full_path = base / relative_path
+        if full_path.exists() and full_path.is_file():
+            return str(full_path)
+    return None
 
-    if op == "+":
-        a = random.randint(0, max_num)
-        max_b = min(max_num, 100 - a)
-        b = random.randint(0, max_b)
-        answer = a + b
-    else:
-        a = random.randint(0, max_num)
-        b = random.randint(0, a)
-        answer = a - b
 
-    if random.random() < 0.2:
-        a = min(a + random.randint(1, 5), 100)
+def level_settings(mode: str, level: int):
+    if mode == "add_sub":
+        if level <= 3:
+            return {"max_num": 20, "ops": ["+"], "count": 3}
+        if level <= 6:
+            return {"max_num": 50, "ops": ["+", "-"], "count": 3}
+        if level <= 8:
+            return {"max_num": 80, "ops": ["+", "-"], "count": 4}
+        return {"max_num": 100, "ops": ["+", "-"], "count": 5}
+
+    if level <= 3:
+        return {"max_factor": 5, "count": 3}
+    if level <= 6:
+        return {"max_factor": 8, "count": 4}
+    if level <= 8:
+        return {"max_factor": 10, "count": 4}
+    return {"max_factor": 10, "count": 5}
+
+
+def generate_exercise(mode: str, level: int):
+    settings = level_settings(mode, level)
+
+    if mode == "add_sub":
+        max_num = settings["max_num"]
+        op = random.choice(settings["ops"])
         if op == "+":
-            b = min(b, 100 - a)
+            a = random.randint(0, max_num)
+            b = random.randint(0, min(max_num, 100 - a))
             answer = a + b
         else:
-            b = min(b, a)
+            a = random.randint(0, max_num)
+            b = random.randint(0, a)
             answer = a - b
+        return {"a": a, "b": b, "op": op, "answer": answer}
 
-    return {"a": a, "b": b, "op": op, "answer": answer}
+    max_factor = settings["max_factor"]
+    a = random.randint(1, max_factor)
+    b = random.randint(1, min(max_factor, 100 // a))
+    answer = a * b
+    return {"a": a, "b": b, "op": "*", "answer": answer}
 
 
-def reset_game():
-    st.session_state.level = 1
-    st.session_state.correct_total = 0
-    st.session_state.current_in_stage = 0
-    st.session_state.finished = False
-    st.session_state.feedback_type = ""
-    st.session_state.feedback_text = ""
-    st.session_state.pending_sound = None
-    st.session_state.pending_celebration = None
-    st.session_state.current_exercise = generate_exercise(1)
+def reset_mode(mode: str):
+    st.session_state[mkey(mode, "level")] = 1
+    st.session_state[mkey(mode, "correct_total")] = 0
+    st.session_state[mkey(mode, "current_in_stage")] = 0
+    st.session_state[mkey(mode, "finished")] = False
+    st.session_state[mkey(mode, "feedback_type")] = ""
+    st.session_state[mkey(mode, "feedback_text")] = ""
+    st.session_state[mkey(mode, "current_exercise")] = generate_exercise(mode, 1)
+
+
+def ensure_mode_initialized(mode: str):
+    if mkey(mode, "level") not in st.session_state:
+        reset_mode(mode)
 
 
 def queue_sound(sound_type: str):
@@ -390,130 +423,99 @@ def render_pending_celebration():
     st.session_state.pending_celebration = None
 
 
-def next_stage_or_question():
-    level = st.session_state.level
-    settings = level_settings(level)
-    stage_count = settings["count"]
+def next_stage_or_question(mode: str):
+    level = st.session_state[mkey(mode, "level")]
+    stage_count = level_settings(mode, level)["count"]
 
-    if st.session_state.current_in_stage + 1 >= stage_count:
-        if level >= 20:
-            st.session_state.finished = True
-            st.session_state.feedback_type = "success"
-            st.session_state.feedback_text = "אלופים! סיימתם את כל 20 השלבים! 🎉"
+    if st.session_state[mkey(mode, "current_in_stage")] + 1 >= stage_count:
+        if level >= TOTAL_LEVELS:
+            st.session_state[mkey(mode, "finished")] = True
+            st.session_state[mkey(mode, "feedback_type")] = "success"
+            st.session_state[mkey(mode, "feedback_text")] = "אלופים! סיימתם את כל 10 השלבים! 🎉"
             return
 
-        st.session_state.level = level + 1
-        st.session_state.current_in_stage = 0
-        st.session_state.feedback_type = "success"
-        st.session_state.feedback_text = f"מעולה! עולים לשלב {st.session_state.level} 🚀"
-        st.session_state.current_exercise = generate_exercise(st.session_state.level)
+        st.session_state[mkey(mode, "level")] = level + 1
+        st.session_state[mkey(mode, "current_in_stage")] = 0
+        st.session_state[mkey(mode, "feedback_type")] = "success"
+        st.session_state[mkey(mode, "feedback_text")] = (
+            f"מעולה! עולים לשלב {st.session_state[mkey(mode, 'level')]} 🚀"
+        )
+        st.session_state[mkey(mode, "current_exercise")] = generate_exercise(
+            mode, st.session_state[mkey(mode, "level")]
+        )
         st.balloons()
     else:
-        st.session_state.current_in_stage += 1
-        st.session_state.feedback_type = "success"
-        st.session_state.feedback_text = "נכון מאוד! ממשיכים לתרגיל הבא ⭐"
-        st.session_state.current_exercise = generate_exercise(level)
+        st.session_state[mkey(mode, "current_in_stage")] += 1
+        st.session_state[mkey(mode, "feedback_type")] = "success"
+        st.session_state[mkey(mode, "feedback_text")] = "נכון מאוד! ממשיכים לתרגיל הבא ⭐"
+        st.session_state[mkey(mode, "current_exercise")] = generate_exercise(mode, level)
 
 
-if "level" not in st.session_state:
-    reset_game()
+def render_mode_tab(mode: str):
+    level = st.session_state[mkey(mode, "level")]
+    settings = level_settings(mode, level)
+    stage_count = settings["count"]
+    correct_total = st.session_state[mkey(mode, "correct_total")]
+    current_in_stage = st.session_state[mkey(mode, "current_in_stage")]
+    finished = st.session_state[mkey(mode, "finished")]
 
-if "pending_sound" not in st.session_state:
-    st.session_state.pending_sound = None
-
-if "sound_nonce" not in st.session_state:
-    st.session_state.sound_nonce = 0
-
-if "pending_celebration" not in st.session_state:
-    st.session_state.pending_celebration = None
-
-if "celebration_nonce" not in st.session_state:
-    st.session_state.celebration_nonce = 0
-
-level = st.session_state.level
-settings = level_settings(level)
-stage_count = settings["count"]
-
-emoji, name = CHARACTERS[(level - 1) % len(CHARACTERS)]
-
-st.markdown(
-    """
-    <div class="side-strip side-left">
-        <div class="side-char">👧</div>
-        <div class="side-char">🧒</div>
-        <div class="side-char">👦</div>
-        <div class="side-char">👧</div>
-        <div class="side-char">🧒</div>
-    </div>
-    <div class="side-strip side-right">
-        <div class="side-char">👽</div>
-        <div class="side-char">🛸</div>
-        <div class="side-char">👾</div>
-        <div class="side-char">👽</div>
-        <div class="side-char">🛸</div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-st.markdown('<div class="app-shell">', unsafe_allow_html=True)
-
-st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
-st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">חיבור וחיסור עד 100 • 20 שלבים אינטראקטיביים</div>', unsafe_allow_html=True)
-st.markdown('<div class="top-badge">🎵 עכשיו עם אפקטים קוליים מתחלפים</div>', unsafe_allow_html=True)
-
-col_top1, col_top2 = st.columns([3, 1])
-with col_top1:
+    mascot_emoji, mascot_name = CHARACTERS[(level - 1) % len(CHARACTERS)]
     st.markdown(
-        f'<div class="stage-card"><b>שלב נוכחי:</b> {level}/20 &nbsp;|&nbsp; '
-        f'<b>תרגיל בשלב:</b> {st.session_state.current_in_stage + 1}/{stage_count} &nbsp;|&nbsp; '
-        f'<b>סה"כ נכונים:</b> {st.session_state.correct_total}</div>',
+        f'<div class="stage-card"><b>מצב:</b> {MODE_TITLES[mode]} &nbsp;|&nbsp; '
+        f'<b>שלב:</b> {level}/{TOTAL_LEVELS} &nbsp;|&nbsp; '
+        f'<b>תרגיל בשלב:</b> {current_in_stage + 1}/{stage_count} &nbsp;|&nbsp; '
+        f'<b>נכונים:</b> {correct_total}</div>',
         unsafe_allow_html=True,
     )
-with col_top2:
-    if st.button("התחל מחדש"):
-        reset_game()
-        st.rerun()
 
-overall_progress = ((level - 1) + (st.session_state.current_in_stage / max(stage_count, 1))) / 20
-st.progress(min(max(overall_progress, 0.0), 1.0))
+    top_col1, top_col2 = st.columns([3, 1])
+    with top_col1:
+        progress = ((level - 1) + (current_in_stage / max(stage_count, 1))) / TOTAL_LEVELS
+        st.progress(min(max(progress, 0.0), 1.0))
+    with top_col2:
+        if st.button("איפוס מצב", key=f"reset_{mode}"):
+            reset_mode(mode)
+            st.rerun()
 
-if st.session_state.finished:
-    render_pending_sound()
-    st.markdown('<div class="character">🏆🎉👏</div>', unsafe_allow_html=True)
-    st.success("כל הכבוד! סיימת את המשחק כולו. רוצים להתחיל שוב?")
-    if st.button("שחק/י שוב מהתחלה"):
-        reset_game()
-        st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
-    st.stop()
+    if finished:
+        st.markdown('<div style="text-align:center;font-size:2.6rem">🏆🎉👏</div>', unsafe_allow_html=True)
+        st.success(f"כל הכבוד! סיימת את מצב {MODE_TITLES[mode]} כולו.")
+        if st.button("שחק/י שוב", key=f"again_{mode}"):
+            reset_mode(mode)
+            st.rerun()
+        return
 
-st.markdown(f'<div class="character">{emoji}</div>', unsafe_allow_html=True)
-st.markdown(f"### החבר שלך להיום: {name}")
-st.markdown('<div class="tiny-note">פתרו נכון כדי להתקדם שלב ולצבור נקודות!</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align:center;font-size:2.5rem">{mascot_emoji}</div>', unsafe_allow_html=True)
+    st.markdown(f"#### החבר שלך: {mascot_name}")
+    st.markdown('<div class="tiny-note">פתרו נכון כדי להתקדם שלב ולצבור נקודות!</div>', unsafe_allow_html=True)
 
-exercise = st.session_state.current_exercise
-operator = " + " if exercise["op"] == "+" else " − "
-st.markdown(
-    f'<div class="exercise-box">{exercise["a"]}{operator}{exercise["b"]} = ?</div>',
-    unsafe_allow_html=True,
-)
-
-with st.form("answer_form", clear_on_submit=True):
-    answer = st.number_input("מה התשובה?", step=1, format="%d")
-    submitted = st.form_submit_button("בדיקה")
-
-if submitted:
-    if int(answer) == exercise["answer"]:
-        queue_sound("success")
-        queue_celebration()
-        st.session_state.correct_total += 1
-        if random.random() < 0.35:
-            st.snow()
-        next_stage_or_question()
-        st.rerun()
+    exercise = st.session_state[mkey(mode, "current_exercise")]
+    if exercise["op"] == "+":
+        operator = " + "
+    elif exercise["op"] == "-":
+        operator = " − "
     else:
+        operator = " × "
+
+    st.markdown(
+        f'<div class="exercise-box">{exercise["a"]}{operator}{exercise["b"]} = ?</div>',
+        unsafe_allow_html=True,
+    )
+
+    with st.form(f"answer_form_{mode}", clear_on_submit=True):
+        answer = st.number_input("מה התשובה?", step=1, format="%d", key=f"input_{mode}")
+        submitted = st.form_submit_button("בדיקה")
+
+    if submitted:
+        if int(answer) == exercise["answer"]:
+            queue_sound("success")
+            queue_celebration()
+            st.session_state[mkey(mode, "correct_total")] += 1
+            if random.random() < 0.35:
+                st.snow()
+            next_stage_or_question(mode)
+            st.rerun()
+
         queue_sound("error")
         distance = abs(int(answer) - exercise["answer"])
         if distance <= 2:
@@ -523,20 +525,71 @@ if submitted:
         else:
             hint = "לא נורא בכלל, מנסים שוב ביחד 🌈"
 
-        st.session_state.feedback_type = "error"
-        st.session_state.feedback_text = hint
+        st.session_state[mkey(mode, "feedback_type")] = "error"
+        st.session_state[mkey(mode, "feedback_text")] = hint
 
-if st.session_state.feedback_text:
-    if st.session_state.feedback_type == "success":
-        st.markdown(
-            f'<div class="success-card pulse-success">{st.session_state.feedback_text}</div>',
-            unsafe_allow_html=True,
-        )
-    elif st.session_state.feedback_type == "error":
-        st.markdown(
-            f'<div class="error-card">{st.session_state.feedback_text}</div>',
-            unsafe_allow_html=True,
-        )
+    feedback_type = st.session_state[mkey(mode, "feedback_type")]
+    feedback_text = st.session_state[mkey(mode, "feedback_text")]
+    if feedback_text:
+        if feedback_type == "success":
+            st.markdown(f'<div class="success-card pulse-success">{feedback_text}</div>', unsafe_allow_html=True)
+        if feedback_type == "error":
+            st.markdown(f'<div class="error-card">{feedback_text}</div>', unsafe_allow_html=True)
+
+
+if "pending_sound" not in st.session_state:
+    st.session_state.pending_sound = None
+if "sound_nonce" not in st.session_state:
+    st.session_state.sound_nonce = 0
+if "pending_celebration" not in st.session_state:
+    st.session_state.pending_celebration = None
+if "celebration_nonce" not in st.session_state:
+    st.session_state.celebration_nonce = 0
+if "side_message" not in st.session_state:
+    st.session_state.side_message = ""
+
+ensure_mode_initialized("add_sub")
+ensure_mode_initialized("mul")
+
+st.markdown('<div class="app-shell">', unsafe_allow_html=True)
+
+logo_path = find_logo_path()
+if logo_path:
+    c1, c2, c3 = st.columns([1, 2, 1])
+    with c2:
+        st.image(logo_path, width=140)
+
+st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">חיבור, חיסור וכפל עד 100 • מתאים לכיתות ב׳</div>', unsafe_allow_html=True)
+st.markdown('<div class="top-badge">10 שלבים לכל מצב • צלילים ואפקטים משתנים</div>', unsafe_allow_html=True)
+
+left_col, center_col, right_col = st.columns([1.1, 2.6, 1.1])
+with left_col:
+    if st.button("🧒🕍", key="kids_action"):
+        st.session_state.side_message = random.choice(KIDS_MESSAGES)
+        queue_sound("success")
+        queue_celebration()
+        st.rerun()
+    st.markdown('<div class="side-cta">חבורת הילדים</div>', unsafe_allow_html=True)
+with center_col:
+    if st.session_state.side_message:
+        st.markdown(f'<div class="side-msg">{st.session_state.side_message}</div>', unsafe_allow_html=True)
+with right_col:
+    if st.button("👽🛸", key="alien_action"):
+        st.session_state.side_message = random.choice(ALIEN_MESSAGES)
+        queue_sound("success")
+        queue_celebration()
+        st.rerun()
+    st.markdown('<div class="side-cta">צוות החייזרים</div>', unsafe_allow_html=True)
+
+tab_add, tab_mul = st.tabs([MODE_TITLES["add_sub"], MODE_TITLES["mul"]])
+
+with tab_add:
+    render_mode_tab("add_sub")
+
+with tab_mul:
+    render_mode_tab("mul")
 
 render_pending_sound()
 render_pending_celebration()
@@ -544,8 +597,8 @@ render_pending_celebration()
 st.markdown("---")
 st.markdown('<h4 class="section-title">איך מתקדמים?</h4>', unsafe_allow_html=True)
 st.markdown(
-    "- פותרים תרגילים נכון כדי להתקדם בשלב.\n"
-    "- בסוף כל שלב עוברים לשלב הבא.\n"
-    "- בשלב 20 מחכה מסך ניצחון חגיגי!"
+    "- בכל מצב יש 10 שלבים לפי רמת קושי.\n"
+    "- פותרים נכון ועוברים שלב.\n"
+    "- אפשר לעבור בין הטאבים חיבור/חיסור וכפל בכל רגע."
 )
 st.markdown("</div>", unsafe_allow_html=True)
