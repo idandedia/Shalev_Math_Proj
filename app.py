@@ -1,4 +1,5 @@
 import random
+import base64
 from pathlib import Path
 
 import streamlit as st
@@ -16,6 +17,7 @@ THEMES = {
     "minecraft": {
         "label": "🧱 מיינקראפט",
         "bg_css": "linear-gradient(180deg, #87c95c 0 35%, #5b8f3f 35% 100%), repeating-linear-gradient(0deg, rgba(62,95,44,0.35) 0 16px, rgba(77,114,55,0.35) 16px 32px), repeating-linear-gradient(90deg, rgba(55,84,39,0.28) 0 16px, rgba(74,107,53,0.28) 16px 32px)",
+        "bg_files": ["מיינקראפט.jpg", "מיננקראפט.jpg", "מיינקראפטץJPG"],
     },
     "football": {
         "label": "⚽ כדורגל",
@@ -488,6 +490,16 @@ def apply_theme_style(theme_key: str):
     dark_like_themes = {"brawl", "minecraft", "football", "space", "jungle", "robot", "mountains"}
     overlay = "rgba(7, 18, 28, 0.38)" if theme_key in dark_like_themes else "rgba(255, 255, 255, 0.14)"
     text_color = "#103a64" if theme_key not in dark_like_themes else "#0f3558"
+    theme_background = theme["bg_css"]
+
+    for filename in theme.get("bg_files", []):
+        candidate = Path(__file__).resolve().parent / filename
+        if candidate.exists() and candidate.is_file():
+            suffix = candidate.suffix.lower()
+            mime_type = "image/jpeg" if suffix in {".jpg", ".jpeg"} else "image/png"
+            encoded = base64.b64encode(candidate.read_bytes()).decode("ascii")
+            theme_background = f"url('data:{mime_type};base64,{encoded}')"
+            break
 
     st.markdown(
         f"""
@@ -495,7 +507,7 @@ def apply_theme_style(theme_key: str):
         .stApp {{
             background:
                 linear-gradient(160deg, {overlay} 0%, {overlay} 100%),
-                {theme['bg_css']};
+                {theme_background};
             background-size: cover, cover;
             background-position: center;
             background-repeat: no-repeat;
