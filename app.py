@@ -17,17 +17,45 @@ st.markdown(
         background: radial-gradient(circle at 20% 20%, #f7fbff 0%, #eef7ff 35%, #fefeff 100%);
     }
     .block-container {
-        max-width: 500px;
-        padding-top: 0.8rem;
+        max-width: 560px;
+        padding-top: 0.7rem;
         padding-left: 0.55rem;
         padding-right: 0.55rem;
     }
     .app-shell {
-        border-radius: 24px;
-        padding: 1rem 1rem 1.2rem 1rem;
-        background: linear-gradient(180deg, #ffffff 0%, #f6fbff 65%, #f3f9ff 100%);
+        border-radius: 28px;
+        padding: 1rem 1rem 1.25rem 1rem;
+        background: linear-gradient(180deg, #ffffff 0%, #f8fbff 56%, #eef6ff 100%);
         border: 1px solid #d5e8ff;
-        box-shadow: 0 16px 34px rgba(38, 85, 145, 0.16);
+        box-shadow: 0 18px 40px rgba(38, 85, 145, 0.18);
+        position: relative;
+        overflow: hidden;
+    }
+    .app-shell::before,
+    .app-shell::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .app-shell::before {
+        width: 210px;
+        height: 210px;
+        left: -95px;
+        top: -95px;
+        background: radial-gradient(circle, rgba(146, 203, 255, 0.42) 0%, rgba(146, 203, 255, 0.03) 75%);
+    }
+    .app-shell::after {
+        width: 240px;
+        height: 240px;
+        right: -110px;
+        bottom: -115px;
+        background: radial-gradient(circle, rgba(255, 218, 150, 0.38) 0%, rgba(255, 218, 150, 0.04) 70%);
+    }
+    .app-content {
+        position: relative;
+        z-index: 1;
     }
     .school-title {
         text-align: center;
@@ -37,36 +65,129 @@ st.markdown(
         margin-bottom: 0.25rem;
     }
     .main-title {
-        font-size: 1.82rem;
+        font-size: 1.95rem;
         font-weight: 900;
         color: #123f70;
         margin-bottom: 0.14rem;
         text-align: center;
+        letter-spacing: 0.2px;
     }
     .subtitle {
-        font-size: 0.98rem;
+        font-size: 1.02rem;
         color: #355c7d;
-        margin-bottom: 0.72rem;
+        margin-bottom: 0.58rem;
         text-align: center;
     }
     .top-badge {
-        margin: 0.45rem auto 0.8rem auto;
+        margin: 0.38rem auto 0.68rem auto;
         width: fit-content;
-        padding: 0.35rem 0.8rem;
+        padding: 0.36rem 0.84rem;
         border-radius: 999px;
-        background: #edf6ff;
-        border: 1px solid #c8e3ff;
-        color: #285d90;
-        font-weight: 700;
+        background: linear-gradient(180deg, #e8f4ff 0%, #dcedff 100%);
+        border: 1px solid #b8d9ff;
+        color: #1f5b8f;
+        font-weight: 800;
         font-size: 0.9rem;
+        box-shadow: 0 4px 10px rgba(54, 110, 173, 0.12);
     }
-    .stage-card {
-        padding: 0.82rem 0.88rem;
+    .hero-panel {
+        border-radius: 18px;
+        border: 1px solid #c7e2ff;
+        background: linear-gradient(125deg, #eef7ff 0%, #f7fbff 55%, #fff7e3 100%);
+        padding: 0.78rem 0.95rem;
+        margin-bottom: 0.65rem;
+        box-shadow: 0 6px 14px rgba(80, 126, 180, 0.1);
+        text-align: center;
+    }
+    .hero-title {
+        font-size: 1.04rem;
+        color: #1d4f80;
+        font-weight: 900;
+        margin-bottom: 0.18rem;
+    }
+    .hero-sub {
+        font-size: 0.9rem;
+        color: #426487;
+        font-weight: 700;
+    }
+    .badge-row {
+        display: flex;
+        justify-content: center;
+        gap: 0.44rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.6rem;
+    }
+    .badge-pill {
+        border-radius: 999px;
+        padding: 0.22rem 0.65rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        border: 1px solid #cae5ff;
+        background: #f2f9ff;
+        color: #275683;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.46rem;
+        margin: 0.58rem 0 0.45rem 0;
+    }
+    .stat-pill {
+        padding: 0.52rem 0.6rem;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #edf6ff 0%, #f8fbff 100%);
+        border: 1px solid #cfe3fb;
+        box-shadow: 0 3px 8px rgba(73, 125, 187, 0.08);
+        color: #1b4f80;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 800;
+    }
+    .mode-frame {
+        border-radius: 18px;
+        border: 1px solid #cee5ff;
+        background: linear-gradient(180deg, #fafdff 0%, #f4f9ff 100%);
+        padding: 0.72rem 0.72rem 0.82rem 0.72rem;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        margin-top: 0.25rem;
+    }
+    .progress-wrap {
+        border-radius: 14px;
+        border: 1px solid #cfe5ff;
+        background: #f5faff;
+        padding: 0.48rem 0.62rem 0.56rem 0.62rem;
+        margin: 0.25rem 0 0.55rem 0;
+    }
+    .progress-note {
+        text-align: center;
+        color: #2f5f8e;
+        font-size: 0.84rem;
+        font-weight: 700;
+        margin-top: 0.28rem;
+    }
+    .mascot-card {
         border-radius: 16px;
-        background: linear-gradient(90deg, #ecf6ff 0%, #f7fbff 100%);
-        border: 1px solid #cfe6ff;
-        margin: 0.6rem 0;
-        box-shadow: 0 4px 10px rgba(66, 116, 171, 0.08);
+        border: 1px solid #cfe4ff;
+        background: linear-gradient(180deg, #ffffff 0%, #f1f8ff 100%);
+        padding: 0.58rem 0.7rem;
+        margin: 0.25rem 0 0.55rem 0;
+        text-align: center;
+    }
+    .mascot-emoji {
+        font-size: 2.25rem;
+        line-height: 1;
+        margin-bottom: 0.12rem;
+    }
+    .mascot-name {
+        color: #1f527f;
+        font-size: 1rem;
+        font-weight: 900;
+        margin-bottom: 0.14rem;
+    }
+    .mascot-tip {
+        color: #3d6689;
+        font-size: 0.86rem;
+        font-weight: 700;
     }
     .exercise-box {
         font-size: 2.05rem;
@@ -131,13 +252,24 @@ st.markdown(
         text-align: center;
         color: #204b75;
     }
+    .finish-card {
+        border-radius: 16px;
+        border: 1px solid #bfe4c5;
+        background: linear-gradient(180deg, #effff1 0%, #dff8e4 100%);
+        padding: 0.8rem;
+        text-align: center;
+        margin: 0.35rem 0 0.6rem 0;
+        color: #1e6c2d;
+        font-weight: 900;
+    }
     .stButton > button,
     .stFormSubmitButton > button {
-        border-radius: 12px;
-        border: 1px solid #9ec8ff;
-        background: linear-gradient(180deg, #dff0ff 0%, #cde7ff 100%);
+        border-radius: 14px;
+        border: 1px solid #90c0ff;
+        background: linear-gradient(180deg, #e3f2ff 0%, #cde7ff 100%);
         color: #143f6b;
         font-weight: 800;
+        min-height: 2.5rem;
         transition: all 0.18s ease;
     }
     .stButton > button:hover,
@@ -146,28 +278,54 @@ st.markdown(
         box-shadow: 0 8px 18px rgba(66, 116, 171, 0.18);
         border-color: #84b9ff;
     }
+    .stFormSubmitButton > button {
+        background: linear-gradient(180deg, #58a9ff 0%, #2f84e4 100%);
+        color: #ffffff;
+        border: 1px solid #3f8fe7;
+    }
+    .stFormSubmitButton > button:hover {
+        box-shadow: 0 9px 20px rgba(47, 132, 228, 0.28);
+        border-color: #2f84e4;
+    }
     .stNumberInput label {
         font-weight: 700;
         color: #204b75;
     }
+    .stNumberInput input {
+        border-radius: 12px !important;
+        border: 1px solid #b9d8ff !important;
+        background: #fafdff !important;
+    }
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #5caeff 0%, #2f84e4 100%);
+    }
     button[data-baseweb="tab"] {
         border-radius: 10px 10px 0 0 !important;
         font-weight: 800 !important;
+        background: #f4f9ff !important;
+    }
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #1a4f81 !important;
+        background: #e6f2ff !important;
+        border-bottom: 2px solid #6eaef5 !important;
     }
     @media (max-width: 560px) {
         .block-container {
-            max-width: 420px;
+            max-width: 450px;
             padding-left: 0.36rem;
             padding-right: 0.36rem;
         }
         .main-title {
-            font-size: 1.45rem;
+            font-size: 1.55rem;
         }
         .subtitle {
             font-size: 0.9rem;
         }
         .exercise-box {
             font-size: 1.82rem;
+        }
+        .stats-grid {
+            grid-template-columns: 1fr;
         }
     }
     </style>
@@ -472,34 +630,57 @@ def render_mode_tab(mode: str):
     finished = st.session_state[mkey(mode, "finished")]
 
     mascot_emoji, mascot_name = CHARACTERS[(level - 1) % len(CHARACTERS)]
+    st.markdown('<div class="mode-frame">', unsafe_allow_html=True)
+
     st.markdown(
-        f'<div class="stage-card"><b>מצב:</b> {MODE_TITLES[mode]} &nbsp;|&nbsp; '
-        f'<b>שלב:</b> {level}/{TOTAL_LEVELS} &nbsp;|&nbsp; '
-        f'<b>תרגיל בשלב:</b> {current_in_stage + 1}/{stage_count} &nbsp;|&nbsp; '
-        f'<b>נכונים:</b> {correct_total}</div>',
+        f"""
+        <div class="stats-grid">
+            <div class="stat-pill">📘 מצב: {MODE_TITLES[mode]}</div>
+            <div class="stat-pill">🚀 שלב: {level}/{TOTAL_LEVELS}</div>
+            <div class="stat-pill">🧩 תרגיל: {current_in_stage + 1}/{stage_count}</div>
+            <div class="stat-pill">⭐ נכונים: {correct_total}</div>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
     top_col1, top_col2 = st.columns([3, 1])
     with top_col1:
         progress = ((level - 1) + (current_in_stage / max(stage_count, 1))) / TOTAL_LEVELS
+        st.markdown('<div class="progress-wrap">', unsafe_allow_html=True)
         st.progress(min(max(progress, 0.0), 1.0))
+        st.markdown(
+            f'<div class="progress-note">התקדמות כוללת: {int(progress * 100)}%</div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown('</div>', unsafe_allow_html=True)
     with top_col2:
-        if st.button("איפוס מצב", key=f"reset_{mode}"):
+        if st.button("איפוס מצב", key=f"reset_{mode}", use_container_width=True):
             reset_mode(mode)
             st.rerun()
 
     if finished:
         st.markdown('<div style="text-align:center;font-size:2.6rem">🏆🎉👏</div>', unsafe_allow_html=True)
-        st.success(f"כל הכבוד! סיימת את מצב {MODE_TITLES[mode]} כולו.")
-        if st.button("שחק/י שוב", key=f"again_{mode}"):
+        st.markdown(
+            f'<div class="finish-card">אלוף/ה! סיימת את מצב {MODE_TITLES[mode]} בהצלחה גדולה ✨</div>',
+            unsafe_allow_html=True,
+        )
+        if st.button("שחק/י שוב", key=f"again_{mode}", use_container_width=True):
             reset_mode(mode)
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
         return
 
-    st.markdown(f'<div style="text-align:center;font-size:2.5rem">{mascot_emoji}</div>', unsafe_allow_html=True)
-    st.markdown(f"#### החבר שלך: {mascot_name}")
-    st.markdown('<div class="tiny-note">פתרו נכון כדי להתקדם שלב ולצבור נקודות!</div>', unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="mascot-card">
+            <div class="mascot-emoji">{mascot_emoji}</div>
+            <div class="mascot-name">החבר שלך: {mascot_name}</div>
+            <div class="mascot-tip">פתרו נכון כדי להתקדם שלב ולצבור נקודות!</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     exercise = st.session_state[mkey(mode, "current_exercise")]
     if exercise["op"] == "+":
@@ -513,10 +694,11 @@ def render_mode_tab(mode: str):
         f'<div class="exercise-box">{exercise["a"]}{operator}{exercise["b"]} = ?</div>',
         unsafe_allow_html=True,
     )
+    st.markdown('<div class="tiny-note">קחו נשימה, תחשבו לאט, ותנו תשובה 💡</div>', unsafe_allow_html=True)
 
     with st.form(f"answer_form_{mode}", clear_on_submit=True):
         answer = st.number_input("מה התשובה?", step=1, format="%d", key=f"input_{mode}")
-        submitted = st.form_submit_button("בדיקה")
+        submitted = st.form_submit_button("בדיקה", use_container_width=True)
 
     if submitted:
         if int(answer) == exercise["answer"]:
@@ -548,6 +730,8 @@ def render_mode_tab(mode: str):
         if feedback_type == "error":
             st.markdown(f'<div class="error-card">{feedback_text}</div>', unsafe_allow_html=True)
 
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
 if "pending_sound" not in st.session_state:
     st.session_state.pending_sound = None
@@ -575,10 +759,20 @@ st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרי
 st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">חיבור, חיסור וכפל עד 100 • מתאים לכיתות ב׳</div>', unsafe_allow_html=True)
 st.markdown('<div class="top-badge">10 שלבים לכל מצב • צלילים ואפקטים משתנים</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="hero-panel"><div class="hero-title">🎮 מתאמנים, נהנים ומתחזקים בחשבון</div>'
+    '<div class="hero-sub">התקדמות בשלבים + חיזוקים בדרך = הצלחה אמיתית</div></div>',
+    unsafe_allow_html=True,
+)
+st.markdown(
+    '<div class="badge-row"><span class="badge-pill">🎯 מטרה: דיוק ומהירות</span>'
+    '<span class="badge-pill">🧠 אימון יומי קצר</span></div>',
+    unsafe_allow_html=True,
+)
 
 left_col, center_col, right_col = st.columns([1.1, 2.6, 1.1])
 with left_col:
-    if st.button("🧒🕍", key="kids_action"):
+    if st.button("🧒🕍", key="kids_action", use_container_width=True):
         st.session_state.side_message = random.choice(KIDS_MESSAGES)
         queue_sound("success")
         queue_celebration()
@@ -588,7 +782,7 @@ with center_col:
     if st.session_state.side_message:
         st.markdown(f'<div class="side-msg">{st.session_state.side_message}</div>', unsafe_allow_html=True)
 with right_col:
-    if st.button("👽🛸", key="alien_action"):
+    if st.button("👽🛸", key="alien_action", use_container_width=True):
         st.session_state.side_message = random.choice(ALIEN_MESSAGES)
         queue_sound("success")
         queue_celebration()
