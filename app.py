@@ -216,6 +216,15 @@ st.markdown(
         font-weight: 700;
         margin-top: 0.4rem;
     }
+    .hint-card {
+        padding: 0.74rem 0.9rem;
+        border-radius: 12px;
+        background: #fff8e6;
+        border: 1px solid #ffd98b;
+        color: #7b5711;
+        font-weight: 800;
+        margin-top: 0.4rem;
+    }
     .success-card {
         padding: 0.74rem 0.9rem;
         border-radius: 12px;
@@ -339,33 +348,33 @@ MODE_TITLES = {
 }
 
 CHARACTERS = [
-    ("🧑‍🎓", "שליו"),
-    ("🧑‍🎓", "ליאם"),
-    ("🧑‍🎓", "ראם"),
-    ("🧑‍🎓", "אופק"),
-    ("🧑‍🎓", "בארי"),
-    ("🧑‍🎓", "משה ישראל"),
-    ("🧑‍🎓", "רום"),
-    ("🧑‍🎓", "אליה"),
-    ("🧑‍🎓", "אליה.ב."),
-    ("🧑‍🎓", "נדב"),
-    ("🧑‍🎓", "אמיתי"),
-    ("🧑‍🎓", "אביתר"),
-    ("🧑‍🎓", "רפאל.ג."),
-    ("🧑‍🎓", "רפאל.ל."),
-    ("🧑‍🎓", "ישי"),
-    ("🧑‍🎓", "נועה"),
-    ("🧑‍🎓", "נעה"),
-    ("🧑‍🎓", "מיכאלה"),
-    ("🧑‍🎓", "תהילה"),
-    ("🧑‍🎓", "אליה.פ."),
-    ("🧑‍🎓", "נויה"),
-    ("🧑‍🎓", "טוהר"),
-    ("🧑‍🎓", "יהלי"),
-    ("🧑‍🎓", "אליאן"),
-    ("👩‍🏫", "אלישבע המחנכת ✨"),
-    ("🧑‍🎓", "הדר"),
-    ("🧑‍🎓", "הודיה"),
+    ("👦", "שליו"),
+    ("👦", "ליאם"),
+    ("👦", "ראם"),
+    ("👦", "אופק"),
+    ("👦", "בארי"),
+    ("👦", "משה ישראל"),
+    ("👦", "רום"),
+    ("👦", "אליה"),
+    ("👦", "אליה.ב."),
+    ("👦", "נדב"),
+    ("👦", "אמיתי"),
+    ("👦", "אביתר"),
+    ("👦", "רפאל .ג."),
+    ("👦", "רפאל .ל."),
+    ("👦", "ישי"),
+    ("👧", "נועה"),
+    ("👧", "נעה"),
+    ("👧", "מיכאלה"),
+    ("👧", "תהילה"),
+    ("👧", "אליה.פ."),
+    ("👧", "נויה"),
+    ("👧", "טוהר"),
+    ("👧", "יהלי"),
+    ("👧", "אליאן"),
+    ("👩", "אלישבע המחנכת ✨"),
+    ("👧", "הדר"),
+    ("👧", "הודיה"),
 ]
 
 LOGO_CANDIDATES = [
@@ -459,12 +468,51 @@ def generate_exercise(mode: str, level: int):
     return {"a": a, "b": b, "op": "*", "answer": answer}
 
 
+def build_hint(exercise: dict) -> str:
+    a = exercise["a"]
+    b = exercise["b"]
+    op = exercise["op"]
+    answer = exercise["answer"]
+    answer_str = str(answer)
+
+    if op == "+":
+        hints = [
+            f"טיפ: אפשר לפרק לעשרות ואחדות — {a} ו-{b}, ואז לחבר קודם את העשרות ואז את האחדות.",
+            f"טיפ חשיבה: התוצאה תהיה גדולה מ-{max(a, b)}. נסו להוסיף בהדרגה, בקפיצות קטנות.",
+            f"רמז ספרתי: הספרה הראשונה של התשובה היא {answer_str[0]}.",
+            f"רמז ספרתי: ספרת האחדות בתשובה היא {answer % 10}.",
+            f"טיפ: התחילו מהמספר הגדול יותר ({max(a, b)}) וספרו קדימה {min(a, b)} צעדים.",
+        ]
+        return random.choice(hints)
+
+    if op == "-":
+        hints = [
+            f"טיפ: אפשר להוריד קודם עשרות ואז אחדות מ-{a} — זה מקל מאוד.",
+            f"טיפ חשיבה: התוצאה קטנה מ-{a} ולא יורדת מתחת ל-0.",
+            f"רמז ספרתי: הספרה הראשונה של התשובה היא {answer_str[0]}.",
+            f"רמז ספרתי: ספרת האחדות בתשובה היא {answer % 10}.",
+            f"טיפ: בדקו מה ההפרש בין {a} ל-{b} דרך קפיצות לעשר הקרובה.",
+        ]
+        return random.choice(hints)
+
+    hints = [
+        f"טיפ: כפל הוא חיבור חוזר — חשבו על {a} קבוצות של {b}.",
+        f"טיפ: אפשר להפוך את הסדר ({b} × {a}) אם זה מרגיש לכם קל יותר.",
+        f"רמז ספרתי: הספרה הראשונה של התשובה היא {answer_str[0]}.",
+        f"רמז ספרתי: ספרת האחדות בתשובה היא {answer % 10}.",
+        f"טיפ: פרקו גורם אחד לחלקים נוחים, ואז חברו את המכפלות.",
+    ]
+    return random.choice(hints)
+
+
 def reset_mode(mode: str):
     st.session_state[mkey(mode, "level")] = 1
     st.session_state[mkey(mode, "correct_total")] = 0
     st.session_state[mkey(mode, "current_in_stage")] = 0
     st.session_state[mkey(mode, "finished")] = False
     st.session_state[mkey(mode, "mascot_idx")] = random.randint(0, len(CHARACTERS) - 1)
+    st.session_state[mkey(mode, "help_used_in_stage")] = False
+    st.session_state[mkey(mode, "help_confirm_pending")] = False
     st.session_state[mkey(mode, "feedback_type")] = ""
     st.session_state[mkey(mode, "feedback_text")] = ""
     st.session_state[mkey(mode, "current_exercise")] = generate_exercise(mode, 1)
@@ -628,6 +676,8 @@ def next_stage_or_question(mode: str):
 
         st.session_state[mkey(mode, "level")] = level + 1
         st.session_state[mkey(mode, "current_in_stage")] = 0
+        st.session_state[mkey(mode, "help_used_in_stage")] = False
+        st.session_state[mkey(mode, "help_confirm_pending")] = False
         st.session_state[mkey(mode, "feedback_type")] = "success"
         st.session_state[mkey(mode, "feedback_text")] = (
             f"מעולה! עולים לשלב {st.session_state[mkey(mode, 'level')]} 🚀"
@@ -650,6 +700,8 @@ def render_mode_tab(mode: str):
     correct_total = st.session_state[mkey(mode, "correct_total")]
     current_in_stage = st.session_state[mkey(mode, "current_in_stage")]
     finished = st.session_state[mkey(mode, "finished")]
+    help_used_in_stage = st.session_state.get(mkey(mode, "help_used_in_stage"), False)
+    help_confirm_pending = st.session_state.get(mkey(mode, "help_confirm_pending"), False)
 
     mascot_idx_key = mkey(mode, "mascot_idx")
     if mascot_idx_key not in st.session_state:
@@ -712,6 +764,31 @@ def render_mode_tab(mode: str):
         st.session_state[mascot_idx_key] = random.choice(available_indexes)
         st.rerun()
 
+    if not help_used_in_stage and not help_confirm_pending:
+        if st.button("רמז מהחבר 💡", key=f"ask_hint_{mode}", use_container_width=True):
+            st.session_state[mkey(mode, "help_confirm_pending")] = True
+            st.rerun()
+
+    if help_confirm_pending and not help_used_in_stage:
+        st.warning("⚠️ שימו לב: יש רק עזרה אחת בכל שלב. להפעיל את הרמז עכשיו?")
+        confirm_col, cancel_col = st.columns(2)
+        with confirm_col:
+            if st.button("כן, קח/י רמז", key=f"confirm_hint_{mode}", use_container_width=True):
+                exercise_for_hint = st.session_state[mkey(mode, "current_exercise")]
+                st.session_state[mkey(mode, "feedback_type")] = "hint"
+                st.session_state[mkey(mode, "feedback_text")] = build_hint(exercise_for_hint)
+                st.session_state[mkey(mode, "help_used_in_stage")] = True
+                st.session_state[mkey(mode, "help_confirm_pending")] = False
+                queue_sound("success")
+                st.rerun()
+        with cancel_col:
+            if st.button("ביטול", key=f"cancel_hint_{mode}", use_container_width=True):
+                st.session_state[mkey(mode, "help_confirm_pending")] = False
+                st.rerun()
+
+    if help_used_in_stage:
+        st.info("העזרה לשלב הזה כבר נוצלה ✅")
+
     exercise = st.session_state[mkey(mode, "current_exercise")]
     if exercise["op"] == "+":
         operator = " + "
@@ -759,6 +836,8 @@ def render_mode_tab(mode: str):
             st.markdown(f'<div class="success-card pulse-success">{feedback_text}</div>', unsafe_allow_html=True)
         if feedback_type == "error":
             st.markdown(f'<div class="error-card">{feedback_text}</div>', unsafe_allow_html=True)
+        if feedback_type == "hint":
+            st.markdown(f'<div class="hint-card">{feedback_text}</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
