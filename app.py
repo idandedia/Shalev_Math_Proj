@@ -8,6 +8,28 @@ TOTAL_LEVELS = 10
 
 st.set_page_config(page_title="ב'1 בית ספר אפרים צמח", page_icon="🧮", layout="centered")
 
+THEMES = {
+    "brawl": {"label": "🎮 בראול סטארס", "bg_url": "https://source.unsplash.com/1600x900/?neon,arcade,game"},
+    "minecraft": {"label": "🧱 מיינקראפט", "bg_url": "https://source.unsplash.com/1600x900/?voxel,blocks,landscape"},
+    "football": {"label": "⚽ כדורגל", "bg_url": "https://source.unsplash.com/1600x900/?football,stadium,grass"},
+    "ice_princess": {"label": "❄️ אלזה לבנות", "bg_url": "https://source.unsplash.com/1600x900/?ice,princess,winter"},
+    "space": {"label": "🚀 חלל", "bg_url": "https://source.unsplash.com/1600x900/?space,stars,galaxy"},
+    "ocean": {"label": "🌊 ים", "bg_url": "https://source.unsplash.com/1600x900/?ocean,waves,water"},
+    "jungle": {"label": "🌿 ג'ונגל", "bg_url": "https://source.unsplash.com/1600x900/?jungle,forest,kids"},
+    "rainbow": {"label": "🌈 קשת צבעונית", "bg_url": "https://source.unsplash.com/1600x900/?rainbow,colorful,children"},
+    "unicorn": {"label": "🦄 חד קרן", "bg_url": "https://source.unsplash.com/1600x900/?unicorn,pastel,magic"},
+    "dinosaur": {"label": "🦖 דינוזאורים", "bg_url": "https://source.unsplash.com/1600x900/?dinosaur,prehistoric,museum"},
+    "robot": {"label": "🤖 רובוטים", "bg_url": "https://source.unsplash.com/1600x900/?robot,technology,future"},
+    "basketball": {"label": "🏀 כדורסל", "bg_url": "https://source.unsplash.com/1600x900/?basketball,court,sports"},
+    "mountains": {"label": "⛰️ הרפתקה", "bg_url": "https://source.unsplash.com/1600x900/?mountains,adventure,nature"},
+    "castle": {"label": "🏰 טירה קסומה", "bg_url": "https://source.unsplash.com/1600x900/?castle,fantasy,magic"},
+}
+
+if "selected_theme" not in st.session_state:
+    st.session_state.selected_theme = "brawl"
+if st.session_state.selected_theme not in THEMES:
+    st.session_state.selected_theme = "brawl"
+
 st.markdown(
     """
     <style>
@@ -417,6 +439,62 @@ ALIEN_MESSAGES = [
     "👽 אומר: עוד תרגיל ואת/ה אלוף/ה!",
     "קרן חללית של הצלחה בדרך אליך! ✨",
 ]
+
+
+def apply_theme_style(theme_key: str):
+    theme = THEMES.get(theme_key, THEMES["brawl"])
+    dark_like_themes = {"brawl", "minecraft", "football", "space", "jungle", "robot", "mountains"}
+    overlay = "rgba(7, 18, 28, 0.52)" if theme_key in dark_like_themes else "rgba(255, 255, 255, 0.24)"
+    text_color = "#103a64" if theme_key not in dark_like_themes else "#0f3558"
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background:
+                linear-gradient(160deg, {overlay} 0%, {overlay} 100%),
+                url('{theme['bg_url']}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }}
+        .app-shell {{
+            background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.92) 100%) !important;
+            border-color: rgba(170, 210, 255, 0.75) !important;
+        }}
+        .school-title,
+        .main-title,
+        .subtitle,
+        .hero-title,
+        .hero-sub,
+        .badge-pill,
+        .top-badge,
+        .stat-pill,
+        .progress-note,
+        .mascot-name,
+        .mascot-tip,
+        .tiny-note,
+        .side-cta,
+        .side-msg,
+        .section-title,
+        .finish-card {{
+            color: {text_color} !important;
+        }}
+        .hero-panel,
+        .mode-frame,
+        .progress-wrap,
+        .mascot-card,
+        .side-msg,
+        .top-badge,
+        .badge-pill,
+        .stat-pill {{
+            border-color: rgba(170, 210, 255, 0.8) !important;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def mkey(mode: str, name: str) -> str:
@@ -879,6 +957,8 @@ if "side_message" not in st.session_state:
 ensure_mode_initialized("add_sub")
 ensure_mode_initialized("mul")
 
+apply_theme_style(st.session_state.selected_theme)
+
 st.markdown('<div class="app-shell">', unsafe_allow_html=True)
 
 logo_path = find_logo_path()
@@ -887,7 +967,43 @@ if logo_path:
     with c2:
         st.image(logo_path, width=140)
 
-st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
+title_col, theme_col = st.columns([2.2, 1.8])
+with title_col:
+    st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
+with theme_col:
+    quick_options = {
+        "🎮 בראול סטארס": "brawl",
+        "🧱 מיינקראפט": "minecraft",
+        "⚽ כדורגל": "football",
+        "🎨 עוד": "__more__",
+    }
+    current_quick_index = 3
+    if st.session_state.selected_theme in {"brawl", "minecraft", "football"}:
+        current_quick_index = ["brawl", "minecraft", "football"].index(st.session_state.selected_theme)
+    quick_pick = st.radio(
+        "בחירת רקע מהירה",
+        options=list(quick_options.keys()),
+        horizontal=True,
+        index=current_quick_index,
+        key="quick_theme_pick",
+        label_visibility="collapsed",
+    )
+    if quick_options[quick_pick] != "__more__" and st.session_state.selected_theme != quick_options[quick_pick]:
+        st.session_state.selected_theme = quick_options[quick_pick]
+        st.rerun()
+
+    theme_keys = list(THEMES.keys())
+    selected_theme_from_list = st.selectbox(
+        "בחרו רקע",
+        options=theme_keys,
+        index=theme_keys.index(st.session_state.selected_theme),
+        format_func=lambda key: THEMES[key]["label"],
+        key="theme_selector",
+    )
+    if selected_theme_from_list != st.session_state.selected_theme:
+        st.session_state.selected_theme = selected_theme_from_list
+        st.rerun()
+
 st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">חיבור, חיסור וכפל עד 100 • מתאים לכיתות ב׳</div>', unsafe_allow_html=True)
 st.markdown('<div class="top-badge">10 שלבים לכל מצב • צלילים ואפקטים משתנים</div>', unsafe_allow_html=True)
