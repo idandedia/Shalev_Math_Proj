@@ -296,11 +296,13 @@ st.markdown(
         box-shadow: 0 9px 20px rgba(47, 132, 228, 0.28);
         border-color: #2f84e4;
     }
-    .stNumberInput label {
+    .stNumberInput label,
+    .stTextInput label {
         font-weight: 700;
         color: #204b75;
     }
-    .stNumberInput input {
+    .stNumberInput input,
+    .stTextInput input {
         border-radius: 12px !important;
         border: 1px solid #b9d8ff !important;
         background: #fafdff !important;
@@ -804,11 +806,29 @@ def render_mode_tab(mode: str):
     st.markdown('<div class="tiny-note">קחו נשימה, תחשבו לאט, ותנו תשובה 💡</div>', unsafe_allow_html=True)
 
     with st.form(f"answer_form_{mode}", clear_on_submit=True):
-        answer = st.number_input("מה התשובה?", step=1, format="%d", key=f"input_{mode}")
+        answer_raw = st.text_input(
+            "מה התשובה?",
+            value="",
+            key=f"input_{mode}",
+            placeholder="כתבו תשובה במספרים",
+        )
         submitted = st.form_submit_button("בדיקה", use_container_width=True)
 
     if submitted:
-        if int(answer) == exercise["answer"]:
+        answer_text = answer_raw.strip()
+        if not answer_text:
+            st.session_state[mkey(mode, "feedback_type")] = "error"
+            st.session_state[mkey(mode, "feedback_text")] = "צריך להקליד תשובה לפני בדיקה 🙂"
+            st.rerun()
+
+        try:
+            user_answer = int(answer_text)
+        except ValueError:
+            st.session_state[mkey(mode, "feedback_type")] = "error"
+            st.session_state[mkey(mode, "feedback_text")] = "אפשר לכתוב רק מספר שלם ✍️"
+            st.rerun()
+
+        if user_answer == exercise["answer"]:
             queue_sound("success")
             queue_celebration()
             st.session_state[mkey(mode, "correct_total")] += 1
@@ -818,7 +838,7 @@ def render_mode_tab(mode: str):
             st.rerun()
 
         queue_sound("error")
-        distance = abs(int(answer) - exercise["answer"])
+        distance = abs(user_answer - exercise["answer"])
         if distance <= 2:
             hint = "קרוב מאוד! נסו שוב 💪"
         elif distance <= 10:
