@@ -443,6 +443,7 @@ def reset_mode(mode: str):
     st.session_state[mkey(mode, "correct_total")] = 0
     st.session_state[mkey(mode, "current_in_stage")] = 0
     st.session_state[mkey(mode, "finished")] = False
+    st.session_state[mkey(mode, "mascot_idx")] = random.randint(0, len(CHARACTERS) - 1)
     st.session_state[mkey(mode, "feedback_type")] = ""
     st.session_state[mkey(mode, "feedback_text")] = ""
     st.session_state[mkey(mode, "current_exercise")] = generate_exercise(mode, 1)
@@ -629,7 +630,11 @@ def render_mode_tab(mode: str):
     current_in_stage = st.session_state[mkey(mode, "current_in_stage")]
     finished = st.session_state[mkey(mode, "finished")]
 
-    mascot_emoji, mascot_name = CHARACTERS[(level - 1) % len(CHARACTERS)]
+    mascot_idx_key = mkey(mode, "mascot_idx")
+    if mascot_idx_key not in st.session_state:
+        st.session_state[mascot_idx_key] = (level - 1) % len(CHARACTERS)
+    mascot_idx = st.session_state[mascot_idx_key]
+    mascot_emoji, mascot_name = CHARACTERS[mascot_idx]
     st.markdown('<div class="mode-frame">', unsafe_allow_html=True)
 
     st.markdown(
@@ -681,6 +686,10 @@ def render_mode_tab(mode: str):
         """,
         unsafe_allow_html=True,
     )
+    if st.button("החלף חבר", key=f"swap_mascot_{mode}", use_container_width=True):
+        available_indexes = [i for i in range(len(CHARACTERS)) if i != mascot_idx]
+        st.session_state[mascot_idx_key] = random.choice(available_indexes)
+        st.rerun()
 
     exercise = st.session_state[mkey(mode, "current_exercise")]
     if exercise["op"] == "+":
