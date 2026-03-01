@@ -810,7 +810,6 @@ def render_mode_tab(mode: str):
             "מה התשובה?",
             value="",
             key=f"input_{mode}",
-            placeholder="כתבו תשובה במספרים",
         )
         submitted = st.form_submit_button("בדיקה", use_container_width=True)
 
