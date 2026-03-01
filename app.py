@@ -9,20 +9,20 @@ TOTAL_LEVELS = 10
 st.set_page_config(page_title="ב'1 בית ספר אפרים צמח", page_icon="🧮", layout="centered")
 
 THEMES = {
-    "brawl": {"label": "🎮 בראול סטארס", "bg_url": "https://source.unsplash.com/1600x900/?neon,arcade,game"},
-    "minecraft": {"label": "🧱 מיינקראפט", "bg_url": "https://source.unsplash.com/1600x900/?voxel,blocks,landscape"},
-    "football": {"label": "⚽ כדורגל", "bg_url": "https://source.unsplash.com/1600x900/?football,stadium,grass"},
-    "ice_princess": {"label": "❄️ אלזה לבנות", "bg_url": "https://source.unsplash.com/1600x900/?ice,princess,winter"},
-    "space": {"label": "🚀 חלל", "bg_url": "https://source.unsplash.com/1600x900/?space,stars,galaxy"},
-    "ocean": {"label": "🌊 ים", "bg_url": "https://source.unsplash.com/1600x900/?ocean,waves,water"},
-    "jungle": {"label": "🌿 ג'ונגל", "bg_url": "https://source.unsplash.com/1600x900/?jungle,forest,kids"},
-    "rainbow": {"label": "🌈 קשת צבעונית", "bg_url": "https://source.unsplash.com/1600x900/?rainbow,colorful,children"},
-    "unicorn": {"label": "🦄 חד קרן", "bg_url": "https://source.unsplash.com/1600x900/?unicorn,pastel,magic"},
-    "dinosaur": {"label": "🦖 דינוזאורים", "bg_url": "https://source.unsplash.com/1600x900/?dinosaur,prehistoric,museum"},
-    "robot": {"label": "🤖 רובוטים", "bg_url": "https://source.unsplash.com/1600x900/?robot,technology,future"},
-    "basketball": {"label": "🏀 כדורסל", "bg_url": "https://source.unsplash.com/1600x900/?basketball,court,sports"},
-    "mountains": {"label": "⛰️ הרפתקה", "bg_url": "https://source.unsplash.com/1600x900/?mountains,adventure,nature"},
-    "castle": {"label": "🏰 טירה קסומה", "bg_url": "https://source.unsplash.com/1600x900/?castle,fantasy,magic"},
+    "brawl": {"label": "🎮 בראול סטארס", "bg_url": "https://loremflickr.com/1920/1080/gaming?lock=11"},
+    "minecraft": {"label": "🧱 מיינקראפט", "bg_url": "https://loremflickr.com/1920/1080/minecraft?lock=12"},
+    "football": {"label": "⚽ כדורגל", "bg_url": "https://loremflickr.com/1920/1080/football,stadium?lock=13"},
+    "ice_princess": {"label": "❄️ אלזה לבנות", "bg_url": "https://loremflickr.com/1920/1080/ice,winter,princess?lock=14"},
+    "space": {"label": "🚀 חלל", "bg_url": "https://loremflickr.com/1920/1080/space,stars?lock=15"},
+    "ocean": {"label": "🌊 ים", "bg_url": "https://loremflickr.com/1920/1080/ocean,waves?lock=16"},
+    "jungle": {"label": "🌿 ג'ונגל", "bg_url": "https://loremflickr.com/1920/1080/jungle,forest?lock=17"},
+    "rainbow": {"label": "🌈 קשת צבעונית", "bg_url": "https://loremflickr.com/1920/1080/rainbow,colorful?lock=18"},
+    "unicorn": {"label": "🦄 חד קרן", "bg_url": "https://loremflickr.com/1920/1080/unicorn,pink?lock=19"},
+    "dinosaur": {"label": "🦖 דינוזאורים", "bg_url": "https://loremflickr.com/1920/1080/dinosaur?lock=20"},
+    "robot": {"label": "🤖 רובוטים", "bg_url": "https://loremflickr.com/1920/1080/robot,future?lock=21"},
+    "basketball": {"label": "🏀 כדורסל", "bg_url": "https://loremflickr.com/1920/1080/basketball,court?lock=22"},
+    "mountains": {"label": "⛰️ הרפתקה", "bg_url": "https://loremflickr.com/1920/1080/mountains,adventure?lock=23"},
+    "castle": {"label": "🏰 טירה קסומה", "bg_url": "https://loremflickr.com/1920/1080/castle,magic?lock=24"},
 }
 
 if "selected_theme" not in st.session_state:
@@ -971,38 +971,29 @@ title_col, theme_col = st.columns([2.2, 1.8])
 with title_col:
     st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
 with theme_col:
-    quick_options = {
-        "🎮 בראול סטארס": "brawl",
-        "🧱 מיינקראפט": "minecraft",
-        "⚽ כדורגל": "football",
-        "🎨 עוד": "__more__",
-    }
-    current_quick_index = 3
-    if st.session_state.selected_theme in {"brawl", "minecraft", "football"}:
-        current_quick_index = ["brawl", "minecraft", "football"].index(st.session_state.selected_theme)
-    quick_pick = st.radio(
-        "בחירת רקע מהירה",
-        options=list(quick_options.keys()),
-        horizontal=True,
-        index=current_quick_index,
-        key="quick_theme_pick",
-        label_visibility="collapsed",
-    )
-    if quick_options[quick_pick] != "__more__" and st.session_state.selected_theme != quick_options[quick_pick]:
-        st.session_state.selected_theme = quick_options[quick_pick]
-        st.rerun()
+    quick_col1, quick_col2, quick_col3 = st.columns(3)
+    with quick_col1:
+        if st.button("🎮 בראול", key="theme_btn_brawl", use_container_width=True):
+            st.session_state.selected_theme = "brawl"
+            st.rerun()
+    with quick_col2:
+        if st.button("🧱 מיינקראפט", key="theme_btn_minecraft", use_container_width=True):
+            st.session_state.selected_theme = "minecraft"
+            st.rerun()
+    with quick_col3:
+        if st.button("⚽ כדורגל", key="theme_btn_football", use_container_width=True):
+            st.session_state.selected_theme = "football"
+            st.rerun()
 
     theme_keys = list(THEMES.keys())
-    selected_theme_from_list = st.selectbox(
+    st.selectbox(
         "בחרו רקע",
         options=theme_keys,
-        index=theme_keys.index(st.session_state.selected_theme),
         format_func=lambda key: THEMES[key]["label"],
-        key="theme_selector",
+        key="selected_theme",
     )
-    if selected_theme_from_list != st.session_state.selected_theme:
-        st.session_state.selected_theme = selected_theme_from_list
-        st.rerun()
+
+apply_theme_style(st.session_state.selected_theme)
 
 st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">חיבור, חיסור וכפל עד 100 • מתאים לכיתות ב׳</div>', unsafe_allow_html=True)
