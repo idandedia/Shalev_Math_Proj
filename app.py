@@ -9,20 +9,62 @@ TOTAL_LEVELS = 10
 st.set_page_config(page_title="ב'1 בית ספר אפרים צמח", page_icon="🧮", layout="centered")
 
 THEMES = {
-    "brawl": {"label": "🎮 בראול סטארס", "bg_url": "https://loremflickr.com/1920/1080/gaming?lock=11"},
-    "minecraft": {"label": "🧱 מיינקראפט", "bg_url": "https://loremflickr.com/1920/1080/minecraft?lock=12"},
-    "football": {"label": "⚽ כדורגל", "bg_url": "https://loremflickr.com/1920/1080/football,stadium?lock=13"},
-    "ice_princess": {"label": "❄️ אלזה לבנות", "bg_url": "https://loremflickr.com/1920/1080/ice,winter,princess?lock=14"},
-    "space": {"label": "🚀 חלל", "bg_url": "https://loremflickr.com/1920/1080/space,stars?lock=15"},
-    "ocean": {"label": "🌊 ים", "bg_url": "https://loremflickr.com/1920/1080/ocean,waves?lock=16"},
-    "jungle": {"label": "🌿 ג'ונגל", "bg_url": "https://loremflickr.com/1920/1080/jungle,forest?lock=17"},
-    "rainbow": {"label": "🌈 קשת צבעונית", "bg_url": "https://loremflickr.com/1920/1080/rainbow,colorful?lock=18"},
-    "unicorn": {"label": "🦄 חד קרן", "bg_url": "https://loremflickr.com/1920/1080/unicorn,pink?lock=19"},
-    "dinosaur": {"label": "🦖 דינוזאורים", "bg_url": "https://loremflickr.com/1920/1080/dinosaur?lock=20"},
-    "robot": {"label": "🤖 רובוטים", "bg_url": "https://loremflickr.com/1920/1080/robot,future?lock=21"},
-    "basketball": {"label": "🏀 כדורסל", "bg_url": "https://loremflickr.com/1920/1080/basketball,court?lock=22"},
-    "mountains": {"label": "⛰️ הרפתקה", "bg_url": "https://loremflickr.com/1920/1080/mountains,adventure?lock=23"},
-    "castle": {"label": "🏰 טירה קסומה", "bg_url": "https://loremflickr.com/1920/1080/castle,magic?lock=24"},
+    "brawl": {
+        "label": "🎮 בראול סטארס",
+        "bg_css": "radial-gradient(circle at 20% 20%, #31b8ff 0 18%, transparent 19%), radial-gradient(circle at 80% 18%, #ffcd39 0 15%, transparent 16%), radial-gradient(circle at 50% 80%, #ff4f93 0 20%, transparent 21%), linear-gradient(145deg, #121d3e 0%, #182a66 45%, #183f8a 100%)",
+    },
+    "minecraft": {
+        "label": "🧱 מיינקראפט",
+        "bg_css": "linear-gradient(180deg, #87c95c 0 35%, #5b8f3f 35% 100%), repeating-linear-gradient(0deg, rgba(62,95,44,0.35) 0 16px, rgba(77,114,55,0.35) 16px 32px), repeating-linear-gradient(90deg, rgba(55,84,39,0.28) 0 16px, rgba(74,107,53,0.28) 16px 32px)",
+    },
+    "football": {
+        "label": "⚽ כדורגל",
+        "bg_css": "linear-gradient(90deg, #2f9d4e 0 8%, #37b356 8% 16%, #2f9d4e 16% 24%, #37b356 24% 32%, #2f9d4e 32% 40%, #37b356 40% 48%, #2f9d4e 48% 56%, #37b356 56% 64%, #2f9d4e 64% 72%, #37b356 72% 80%, #2f9d4e 80% 88%, #37b356 88% 100%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.22) 0 15%, transparent 16%)",
+    },
+    "ice_princess": {
+        "label": "❄️ אלזה לבנות",
+        "bg_css": "radial-gradient(circle at 10% 25%, rgba(255,255,255,0.75) 0 2%, transparent 3%), radial-gradient(circle at 35% 70%, rgba(255,255,255,0.7) 0 2.4%, transparent 3%), radial-gradient(circle at 72% 36%, rgba(255,255,255,0.78) 0 2.2%, transparent 3%), linear-gradient(160deg, #6fb9ff 0%, #a9dcff 45%, #d9f1ff 100%)",
+    },
+    "space": {
+        "label": "🚀 חלל",
+        "bg_css": "radial-gradient(circle at 18% 20%, #ffffff 0 1.4%, transparent 2%), radial-gradient(circle at 37% 70%, #ffffff 0 1.2%, transparent 2%), radial-gradient(circle at 74% 30%, #ffffff 0 1.4%, transparent 2%), radial-gradient(circle at 88% 62%, #ffffff 0 1.1%, transparent 2%), linear-gradient(160deg, #0d1338 0%, #161f58 50%, #271f71 100%)",
+    },
+    "ocean": {
+        "label": "🌊 ים",
+        "bg_css": "radial-gradient(ellipse at 50% 100%, rgba(255,255,255,0.3) 0 18%, transparent 20%), repeating-linear-gradient(0deg, rgba(39,121,175,0.25) 0 18px, rgba(53,142,198,0.25) 18px 36px), linear-gradient(160deg, #1f8ece 0%, #45b3e9 55%, #8ad8ff 100%)",
+    },
+    "jungle": {
+        "label": "🌿 ג'ונגל",
+        "bg_css": "radial-gradient(circle at 20% 20%, rgba(122,188,82,0.6) 0 14%, transparent 15%), radial-gradient(circle at 80% 30%, rgba(98,166,63,0.55) 0 12%, transparent 13%), radial-gradient(circle at 60% 78%, rgba(138,198,88,0.5) 0 16%, transparent 17%), linear-gradient(150deg, #2f6e38 0%, #3f8a44 50%, #5ba653 100%)",
+    },
+    "rainbow": {
+        "label": "🌈 קשת צבעונית",
+        "bg_css": "linear-gradient(135deg, #ff5d8f 0 14%, #ff9656 14% 28%, #ffd047 28% 42%, #65c96a 42% 56%, #51b8ff 56% 70%, #6e8cff 70% 84%, #a56ff8 84% 100%)",
+    },
+    "unicorn": {
+        "label": "🦄 חד קרן",
+        "bg_css": "radial-gradient(circle at 22% 25%, rgba(255,255,255,0.7) 0 9%, transparent 10%), radial-gradient(circle at 77% 37%, rgba(255,255,255,0.68) 0 10%, transparent 11%), linear-gradient(145deg, #ffd7ef 0%, #f8d1ff 40%, #d7d4ff 75%, #bde8ff 100%)",
+    },
+    "dinosaur": {
+        "label": "🦖 דינוזאורים",
+        "bg_css": "repeating-linear-gradient(45deg, rgba(92,130,67,0.27) 0 14px, rgba(110,148,80,0.27) 14px 28px), linear-gradient(155deg, #7aa55b 0%, #93b768 45%, #b2cd7f 100%)",
+    },
+    "robot": {
+        "label": "🤖 רובוטים",
+        "bg_css": "linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(160deg, #3f5c74 0%, #4f738f 45%, #6a95b4 100%)",
+    },
+    "basketball": {
+        "label": "🏀 כדורסל",
+        "bg_css": "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.22) 0 1.5%, transparent 2%), linear-gradient(145deg, #d47c2f 0%, #e8923a 45%, #f0a24f 100%)",
+    },
+    "mountains": {
+        "label": "⛰️ הרפתקה",
+        "bg_css": "linear-gradient(160deg, #6ca5d1 0%, #87b8db 35%, #c6e3f3 100%), linear-gradient(20deg, transparent 0 55%, rgba(90,125,150,0.35) 56% 100%), linear-gradient(-20deg, transparent 0 58%, rgba(72,105,130,0.35) 59% 100%)",
+    },
+    "castle": {
+        "label": "🏰 טירה קסומה",
+        "bg_css": "radial-gradient(circle at 15% 18%, rgba(255,255,255,0.6) 0 7%, transparent 8%), radial-gradient(circle at 80% 22%, rgba(255,255,255,0.58) 0 8%, transparent 9%), linear-gradient(150deg, #6c63b4 0%, #8577c6 45%, #a291df 100%)",
+    },
 }
 
 if "selected_theme" not in st.session_state:
@@ -444,7 +486,7 @@ ALIEN_MESSAGES = [
 def apply_theme_style(theme_key: str):
     theme = THEMES.get(theme_key, THEMES["brawl"])
     dark_like_themes = {"brawl", "minecraft", "football", "space", "jungle", "robot", "mountains"}
-    overlay = "rgba(7, 18, 28, 0.52)" if theme_key in dark_like_themes else "rgba(255, 255, 255, 0.24)"
+    overlay = "rgba(7, 18, 28, 0.38)" if theme_key in dark_like_themes else "rgba(255, 255, 255, 0.14)"
     text_color = "#103a64" if theme_key not in dark_like_themes else "#0f3558"
 
     st.markdown(
@@ -453,8 +495,8 @@ def apply_theme_style(theme_key: str):
         .stApp {{
             background:
                 linear-gradient(160deg, {overlay} 0%, {overlay} 100%),
-                url('{theme['bg_url']}');
-            background-size: cover;
+                {theme['bg_css']};
+            background-size: cover, cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -490,6 +532,10 @@ def apply_theme_style(theme_key: str):
         .badge-pill,
         .stat-pill {{
             border-color: rgba(170, 210, 255, 0.8) !important;
+        }}
+        .stButton > button,
+        .stFormSubmitButton > button {{
+            border-color: rgba(125, 175, 230, 0.9) !important;
         }}
         </style>
         """,
@@ -971,20 +1017,6 @@ title_col, theme_col = st.columns([2.2, 1.8])
 with title_col:
     st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
 with theme_col:
-    quick_col1, quick_col2, quick_col3 = st.columns(3)
-    with quick_col1:
-        if st.button("🎮 בראול", key="theme_btn_brawl", use_container_width=True):
-            st.session_state.selected_theme = "brawl"
-            st.rerun()
-    with quick_col2:
-        if st.button("🧱 מיינקראפט", key="theme_btn_minecraft", use_container_width=True):
-            st.session_state.selected_theme = "minecraft"
-            st.rerun()
-    with quick_col3:
-        if st.button("⚽ כדורגל", key="theme_btn_football", use_container_width=True):
-            st.session_state.selected_theme = "football"
-            st.rerun()
-
     theme_keys = list(THEMES.keys())
     st.selectbox(
         "בחרו רקע",
@@ -992,8 +1024,6 @@ with theme_col:
         format_func=lambda key: THEMES[key]["label"],
         key="selected_theme",
     )
-
-apply_theme_style(st.session_state.selected_theme)
 
 st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">חיבור, חיסור וכפל עד 100 • מתאים לכיתות ב׳</div>', unsafe_allow_html=True)
