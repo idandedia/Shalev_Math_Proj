@@ -88,6 +88,8 @@ if "selected_theme" not in st.session_state:
 if st.session_state.selected_theme not in THEMES:
     st.session_state.selected_theme = "brawl"
 
+THEME_ORDER = list(THEMES.keys())
+
 st.markdown(
     """
     <style>
@@ -633,34 +635,50 @@ def build_hint(exercise: dict) -> str:
     op = exercise["op"]
     answer = exercise["answer"]
     answer_str = str(answer)
+    answer_len = len(answer_str)
+    tens_floor = (answer // 10) * 10
+    tens_ceil = min(100, tens_floor + 10)
+
+    numeric_hints = [
+        f"רמז ספרתי: ספרת האחדות בתשובה היא {answer % 10}.",
+        f"רמז מתמטי: התשובה היא מספר {'זוגי' if answer % 2 == 0 else 'אי-זוגי'}.",
+        f"רמז טווח: התשובה נמצאת בין {tens_floor} ל-{tens_ceil}.",
+    ]
+    if answer_len > 1:
+        numeric_hints.append(f"רמז ספרתי: הספרה הראשונה של התשובה היא {answer_str[0]}.")
+    if answer_len > 2:
+        numeric_hints.append(f"רמז ספרתי: הספרה האחרונה של התשובה היא {answer_str[-1]}.")
 
     if op == "+":
         hints = [
             f"טיפ: אפשר לפרק לעשרות ואחדות — {a} ו-{b}, ואז לחבר קודם את העשרות ואז את האחדות.",
             f"טיפ חשיבה: התוצאה תהיה גדולה מ-{max(a, b)}. נסו להוסיף בהדרגה, בקפיצות קטנות.",
-            f"רמז ספרתי: הספרה הראשונה של התשובה היא {answer_str[0]}.",
-            f"רמז ספרתי: ספרת האחדות בתשובה היא {answer % 10}.",
             f"טיפ: התחילו מהמספר הגדול יותר ({max(a, b)}) וספרו קדימה {min(a, b)} צעדים.",
+            f"טיפ מהיר: אם יש מעבר בעשרות, קודם חברו עד עשר ואז המשיכו.",
+            f"טיפ בדיקה: התשובה חייבת להיות גדולה משני המספרים או שווה לגדול מהם כשאחד מהם 0.",
         ]
+        hints.extend(numeric_hints)
         return random.choice(hints)
 
     if op == "-":
         hints = [
             f"טיפ: אפשר להוריד קודם עשרות ואז אחדות מ-{a} — זה מקל מאוד.",
             f"טיפ חשיבה: התוצאה קטנה מ-{a} ולא יורדת מתחת ל-0.",
-            f"רמז ספרתי: הספרה הראשונה של התשובה היא {answer_str[0]}.",
-            f"רמז ספרתי: ספרת האחדות בתשובה היא {answer % 10}.",
             f"טיפ: בדקו מה ההפרש בין {a} ל-{b} דרך קפיצות לעשר הקרובה.",
+            f"טיפ מהיר: אפשר לבדוק הפוך — האם {answer} + {b} מחזיר {a}?",
+            f"טיפ: חיסור זה מרחק בין מספרים על ציר המספרים.",
         ]
+        hints.extend(numeric_hints)
         return random.choice(hints)
 
     hints = [
         f"טיפ: כפל הוא חיבור חוזר — חשבו על {a} קבוצות של {b}.",
         f"טיפ: אפשר להפוך את הסדר ({b} × {a}) אם זה מרגיש לכם קל יותר.",
-        f"רמז ספרתי: הספרה הראשונה של התשובה היא {answer_str[0]}.",
-        f"רמז ספרתי: ספרת האחדות בתשובה היא {answer % 10}.",
         f"טיפ: פרקו גורם אחד לחלקים נוחים, ואז חברו את המכפלות.",
+        f"טיפ: אם אחד הגורמים זוגי, גם התשובה חייבת להיות זוגית.",
+        f"טיפ מהיר: השתמשו בעובדה ש-{a}×{b} = {a}×({b-1}) + {a}.",
     ]
+    hints.extend(numeric_hints)
     return random.choice(hints)
 
 
@@ -1046,21 +1064,9 @@ title_col, theme_col = st.columns([2.2, 1.8])
 with title_col:
     st.markdown('<div class="school-title">כיתה ב׳1 • בית ספר אפרים צמח • טירת הכרמל</div>', unsafe_allow_html=True)
 with theme_col:
-    theme_keys = list(THEMES.keys())
-    theme_labels = [THEMES[key]["label"] for key in theme_keys]
-    current_theme_label = THEMES[st.session_state.selected_theme]["label"]
-    selected_theme_label = st.radio(
-        "בחרו רקע",
-        options=theme_labels,
-        index=theme_labels.index(current_theme_label),
-        key="theme_selector_radio",
-        label_visibility="visible",
-    )
-    selected_theme_key = next(
-        key for key in theme_keys if THEMES[key]["label"] == selected_theme_label
-    )
-    if selected_theme_key != st.session_state.selected_theme:
-        st.session_state.selected_theme = selected_theme_key
+    if st.button("החלף רקע 🎨", key="switch_bg_button", use_container_width=True):
+        current_theme_index = THEME_ORDER.index(st.session_state.selected_theme)
+        st.session_state.selected_theme = THEME_ORDER[(current_theme_index + 1) % len(THEME_ORDER)]
         st.rerun()
 
 st.markdown('<div class="main-title">🧮 משחק החשבון של ב׳1</div>', unsafe_allow_html=True)
