@@ -503,9 +503,37 @@ ALIEN_MESSAGES = [
 
 def apply_theme_style(theme_key: str):
     theme = THEMES.get(theme_key, THEMES["brawl"])
-    dark_like_themes = {"brawl", "minecraft", "football", "space", "jungle", "robot", "mountains"}
-    overlay = "rgba(7, 18, 28, 0.38)" if theme_key in dark_like_themes else "rgba(255, 255, 255, 0.14)"
-    text_color = "#103a64" if theme_key not in dark_like_themes else "#0f3558"
+    dark_like_themes = {"brawl", "minecraft", "football", "space", "jungle", "robot", "mountains", "dinosaur"}
+    colorful_like_themes = {"rainbow", "unicorn", "castle", "basketball"}
+
+    if theme_key in dark_like_themes:
+        overlay = "rgba(7, 18, 28, 0.46)"
+        text_color = "#0e365d"
+        muted_text_color = "#2f5f8c"
+        card_bg = "rgba(255, 255, 255, 0.93)"
+        shell_bg = "linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(244,249,255,0.94) 100%)"
+        border_color = "rgba(148, 196, 245, 0.85)"
+        button_bg = "linear-gradient(180deg, #ecf5ff 0%, #d9ebff 100%)"
+        button_text = "#124271"
+    elif theme_key in colorful_like_themes:
+        overlay = "rgba(255, 255, 255, 0.22)"
+        text_color = "#1f3f63"
+        muted_text_color = "#3d5f83"
+        card_bg = "rgba(255, 255, 255, 0.9)"
+        shell_bg = "linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,251,255,0.92) 100%)"
+        border_color = "rgba(166, 194, 234, 0.85)"
+        button_bg = "linear-gradient(180deg, #eef5ff 0%, #e0ecff 100%)"
+        button_text = "#1b4167"
+    else:
+        overlay = "rgba(255, 255, 255, 0.16)"
+        text_color = "#19486f"
+        muted_text_color = "#3f6689"
+        card_bg = "rgba(250, 253, 255, 0.9)"
+        shell_bg = "linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(244,250,255,0.92) 100%)"
+        border_color = "rgba(168, 207, 241, 0.84)"
+        button_bg = "linear-gradient(180deg, #eaf3ff 0%, #dcecff 100%)"
+        button_text = "#17486f"
+
     theme_background = theme.get("bg_css", "linear-gradient(160deg, #1f8ece 0%, #8ad8ff 100%)")
 
     for filename in theme.get("bg_files", []):
@@ -523,6 +551,15 @@ def apply_theme_style(theme_key: str):
     st.markdown(
         f"""
         <style>
+        :root {{
+            --ux-text: {text_color};
+            --ux-muted: {muted_text_color};
+            --ux-card-bg: {card_bg};
+            --ux-shell-bg: {shell_bg};
+            --ux-border: {border_color};
+            --ux-button-bg: {button_bg};
+            --ux-button-text: {button_text};
+        }}
         .stApp {{
             background:
                 linear-gradient(160deg, {overlay} 0%, {overlay} 100%),
@@ -533,8 +570,8 @@ def apply_theme_style(theme_key: str):
             background-attachment: fixed;
         }}
         .app-shell {{
-            background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.92) 100%) !important;
-            border-color: rgba(170, 210, 255, 0.75) !important;
+            background: var(--ux-shell-bg) !important;
+            border-color: var(--ux-border) !important;
         }}
         .school-title,
         .main-title,
@@ -552,7 +589,14 @@ def apply_theme_style(theme_key: str):
         .side-msg,
         .section-title,
         .finish-card {{
-            color: {text_color} !important;
+            color: var(--ux-text) !important;
+        }}
+        .tiny-note,
+        .hero-sub,
+        .mascot-tip,
+        .progress-note,
+        .side-cta {{
+            color: var(--ux-muted) !important;
         }}
         .hero-panel,
         .mode-frame,
@@ -562,11 +606,14 @@ def apply_theme_style(theme_key: str):
         .top-badge,
         .badge-pill,
         .stat-pill {{
-            border-color: rgba(170, 210, 255, 0.8) !important;
+            background: var(--ux-card-bg) !important;
+            border-color: var(--ux-border) !important;
         }}
         .stButton > button,
         .stFormSubmitButton > button {{
-            border-color: rgba(125, 175, 230, 0.9) !important;
+            border-color: var(--ux-border) !important;
+            background: var(--ux-button-bg) !important;
+            color: var(--ux-button-text) !important;
         }}
         </style>
         """,
