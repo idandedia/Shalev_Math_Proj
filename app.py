@@ -12,60 +12,74 @@ st.set_page_config(page_title="ב'1 בית ספר אפרים צמח", page_icon=
 THEMES = {
     "brawl": {
         "label": "🎮 בראול סטארס",
-        "bg_css": "radial-gradient(circle at 20% 20%, #31b8ff 0 18%, transparent 19%), radial-gradient(circle at 80% 18%, #ffcd39 0 15%, transparent 16%), radial-gradient(circle at 50% 80%, #ff4f93 0 20%, transparent 21%), linear-gradient(145deg, #121d3e 0%, #182a66 45%, #183f8a 100%)",
+        "bg_url": "https://images.pexels.com/photos/1365795/pexels-photo-1365795.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(145deg, #121d3e 0%, #182a66 45%, #183f8a 100%)",
     },
     "minecraft": {
         "label": "🧱 מיינקראפט",
-        "bg_css": "linear-gradient(180deg, #87c95c 0 35%, #5b8f3f 35% 100%), repeating-linear-gradient(0deg, rgba(62,95,44,0.35) 0 16px, rgba(77,114,55,0.35) 16px 32px), repeating-linear-gradient(90deg, rgba(55,84,39,0.28) 0 16px, rgba(74,107,53,0.28) 16px 32px)",
+        "bg_url": "https://images.pexels.com/photos/371924/pexels-photo-371924.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(180deg, #87c95c 0 35%, #5b8f3f 35% 100%)",
         "bg_files": ["מיינקראפט.jpg", "מיננקראפט.jpg", "מיינקראפטץJPG"],
     },
     "football": {
         "label": "⚽ כדורגל",
-        "bg_css": "linear-gradient(90deg, #2f9d4e 0 8%, #37b356 8% 16%, #2f9d4e 16% 24%, #37b356 24% 32%, #2f9d4e 32% 40%, #37b356 40% 48%, #2f9d4e 48% 56%, #37b356 56% 64%, #2f9d4e 64% 72%, #37b356 72% 80%, #2f9d4e 80% 88%, #37b356 88% 100%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.22) 0 15%, transparent 16%)",
+        "bg_url": "https://images.pexels.com/photos/47730/the-ball-stadion-football-the-pitch-47730.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(160deg, #2f9d4e 0%, #37b356 100%)",
     },
     "ice_princess": {
         "label": "❄️ אלזה לבנות",
-        "bg_css": "radial-gradient(circle at 10% 25%, rgba(255,255,255,0.75) 0 2%, transparent 3%), radial-gradient(circle at 35% 70%, rgba(255,255,255,0.7) 0 2.4%, transparent 3%), radial-gradient(circle at 72% 36%, rgba(255,255,255,0.78) 0 2.2%, transparent 3%), linear-gradient(160deg, #6fb9ff 0%, #a9dcff 45%, #d9f1ff 100%)",
+        "bg_url": "https://images.pexels.com/photos/7100170/pexels-photo-7100170.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(160deg, #6fb9ff 0%, #d9f1ff 100%)",
     },
     "space": {
         "label": "🚀 חלל",
-        "bg_css": "radial-gradient(circle at 18% 20%, #ffffff 0 1.4%, transparent 2%), radial-gradient(circle at 37% 70%, #ffffff 0 1.2%, transparent 2%), radial-gradient(circle at 74% 30%, #ffffff 0 1.4%, transparent 2%), radial-gradient(circle at 88% 62%, #ffffff 0 1.1%, transparent 2%), linear-gradient(160deg, #0d1338 0%, #161f58 50%, #271f71 100%)",
+        "bg_url": "https://images.pexels.com/photos/624015/pexels-photo-624015.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(160deg, #0d1338 0%, #271f71 100%)",
     },
     "ocean": {
         "label": "🌊 ים",
-        "bg_css": "radial-gradient(ellipse at 50% 100%, rgba(255,255,255,0.3) 0 18%, transparent 20%), repeating-linear-gradient(0deg, rgba(39,121,175,0.25) 0 18px, rgba(53,142,198,0.25) 18px 36px), linear-gradient(160deg, #1f8ece 0%, #45b3e9 55%, #8ad8ff 100%)",
+        "bg_url": "https://images.pexels.com/photos/3560168/pexels-photo-3560168.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(160deg, #1f8ece 0%, #8ad8ff 100%)",
     },
     "jungle": {
         "label": "🌿 ג'ונגל",
-        "bg_css": "radial-gradient(circle at 20% 20%, rgba(122,188,82,0.6) 0 14%, transparent 15%), radial-gradient(circle at 80% 30%, rgba(98,166,63,0.55) 0 12%, transparent 13%), radial-gradient(circle at 60% 78%, rgba(138,198,88,0.5) 0 16%, transparent 17%), linear-gradient(150deg, #2f6e38 0%, #3f8a44 50%, #5ba653 100%)",
+        "bg_url": "https://images.pexels.com/photos/6039237/pexels-photo-6039237.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(150deg, #2f6e38 0%, #5ba653 100%)",
     },
     "rainbow": {
         "label": "🌈 קשת צבעונית",
-        "bg_css": "linear-gradient(135deg, #ff5d8f 0 14%, #ff9656 14% 28%, #ffd047 28% 42%, #65c96a 42% 56%, #51b8ff 56% 70%, #6e8cff 70% 84%, #a56ff8 84% 100%)",
+        "bg_url": "https://images.pexels.com/photos/998067/pexels-photo-998067.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(135deg, #ff5d8f 0%, #a56ff8 100%)",
     },
     "unicorn": {
         "label": "🦄 חד קרן",
-        "bg_css": "radial-gradient(circle at 22% 25%, rgba(255,255,255,0.7) 0 9%, transparent 10%), radial-gradient(circle at 77% 37%, rgba(255,255,255,0.68) 0 10%, transparent 11%), linear-gradient(145deg, #ffd7ef 0%, #f8d1ff 40%, #d7d4ff 75%, #bde8ff 100%)",
+        "bg_url": "https://images.pexels.com/photos/1319584/pexels-photo-1319584.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(145deg, #ffd7ef 0%, #bde8ff 100%)",
     },
     "dinosaur": {
         "label": "🦖 דינוזאורים",
-        "bg_css": "repeating-linear-gradient(45deg, rgba(92,130,67,0.27) 0 14px, rgba(110,148,80,0.27) 14px 28px), linear-gradient(155deg, #7aa55b 0%, #93b768 45%, #b2cd7f 100%)",
+        "bg_url": "https://images.pexels.com/photos/163077/mario-yoschi-figures-funny-163077.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(155deg, #7aa55b 0%, #b2cd7f 100%)",
     },
     "robot": {
         "label": "🤖 רובוטים",
-        "bg_css": "linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(160deg, #3f5c74 0%, #4f738f 45%, #6a95b4 100%)",
+        "bg_url": "https://images.pexels.com/photos/6141908/pexels-photo-6141908.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(160deg, #3f5c74 0%, #6a95b4 100%)",
     },
     "basketball": {
         "label": "🏀 כדורסל",
-        "bg_css": "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.22) 0 1.5%, transparent 2%), linear-gradient(145deg, #d47c2f 0%, #e8923a 45%, #f0a24f 100%)",
+        "bg_url": "https://images.pexels.com/photos/13770551/pexels-photo-13770551.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(145deg, #d47c2f 0%, #f0a24f 100%)",
     },
     "mountains": {
         "label": "⛰️ הרפתקה",
-        "bg_css": "linear-gradient(160deg, #6ca5d1 0%, #87b8db 35%, #c6e3f3 100%), linear-gradient(20deg, transparent 0 55%, rgba(90,125,150,0.35) 56% 100%), linear-gradient(-20deg, transparent 0 58%, rgba(72,105,130,0.35) 59% 100%)",
+        "bg_url": "https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(160deg, #6ca5d1 0%, #c6e3f3 100%)",
     },
     "castle": {
         "label": "🏰 טירה קסומה",
-        "bg_css": "radial-gradient(circle at 15% 18%, rgba(255,255,255,0.6) 0 7%, transparent 8%), radial-gradient(circle at 80% 22%, rgba(255,255,255,0.58) 0 8%, transparent 9%), linear-gradient(150deg, #6c63b4 0%, #8577c6 45%, #a291df 100%)",
+        "bg_url": "https://images.pexels.com/photos/618902/pexels-photo-618902.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "bg_css": "linear-gradient(150deg, #6c63b4 0%, #a291df 100%)",
     },
 }
 
@@ -490,7 +504,7 @@ def apply_theme_style(theme_key: str):
     dark_like_themes = {"brawl", "minecraft", "football", "space", "jungle", "robot", "mountains"}
     overlay = "rgba(7, 18, 28, 0.38)" if theme_key in dark_like_themes else "rgba(255, 255, 255, 0.14)"
     text_color = "#103a64" if theme_key not in dark_like_themes else "#0f3558"
-    theme_background = theme["bg_css"]
+    theme_background = theme.get("bg_css", "linear-gradient(160deg, #1f8ece 0%, #8ad8ff 100%)")
 
     for filename in theme.get("bg_files", []):
         candidate = Path(__file__).resolve().parent / filename
@@ -500,6 +514,9 @@ def apply_theme_style(theme_key: str):
             encoded = base64.b64encode(candidate.read_bytes()).decode("ascii")
             theme_background = f"url('data:{mime_type};base64,{encoded}')"
             break
+
+    if theme_background == theme.get("bg_css") and theme.get("bg_url"):
+        theme_background = f"url('{theme['bg_url']}')"
 
     st.markdown(
         f"""
