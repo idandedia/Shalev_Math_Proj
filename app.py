@@ -654,15 +654,161 @@ def find_logo_path() -> str | None:
     return None
 
 
+ADD_SUB_LEVEL_PROFILES = {
+    1: {
+        "ops": ["+"],
+        "op_weights": [1.0],
+        "a_range": (1, 9),
+        "b_range": (1, 9),
+        "sum_max": 10,
+        "count": 3,
+        "allow_borrow": False,
+    },
+    2: {
+        "ops": ["+"],
+        "op_weights": [1.0],
+        "a_range": (2, 15),
+        "b_range": (1, 9),
+        "sum_max": 20,
+        "count": 3,
+        "allow_borrow": False,
+    },
+    3: {
+        "ops": ["+", "-"],
+        "op_weights": [0.4, 0.6],
+        "a_range": (5, 20),
+        "b_range": (1, 10),
+        "sum_max": 25,
+        "count": 3,
+        "allow_borrow": False,
+    },
+    4: {
+        "ops": ["+", "-"],
+        "op_weights": [0.35, 0.65],
+        "a_range": (8, 30),
+        "b_range": (1, 12),
+        "sum_max": 35,
+        "count": 4,
+        "allow_borrow": False,
+    },
+    5: {
+        "ops": ["+", "-"],
+        "op_weights": [0.3, 0.7],
+        "a_range": (12, 45),
+        "b_range": (2, 18),
+        "sum_max": 55,
+        "count": 4,
+        "allow_borrow": True,
+    },
+    6: {
+        "ops": ["+", "-"],
+        "op_weights": [0.3, 0.7],
+        "a_range": (18, 60),
+        "b_range": (3, 24),
+        "sum_max": 70,
+        "count": 4,
+        "allow_borrow": True,
+    },
+    7: {
+        "ops": ["+", "-"],
+        "op_weights": [0.25, 0.75],
+        "a_range": (25, 75),
+        "b_range": (4, 28),
+        "sum_max": 85,
+        "count": 4,
+        "allow_borrow": True,
+    },
+    8: {
+        "ops": ["+", "-"],
+        "op_weights": [0.25, 0.75],
+        "a_range": (35, 90),
+        "b_range": (5, 30),
+        "sum_max": 100,
+        "count": 5,
+        "allow_borrow": True,
+    },
+    9: {
+        "ops": ["+", "-"],
+        "op_weights": [0.2, 0.8],
+        "a_range": (45, 100),
+        "b_range": (6, 34),
+        "sum_max": 100,
+        "count": 5,
+        "allow_borrow": True,
+        "require_borrow": True,
+    },
+    10: {
+        "ops": ["+", "-"],
+        "op_weights": [0.15, 0.85],
+        "a_range": (55, 100),
+        "b_range": (8, 38),
+        "sum_max": 100,
+        "count": 5,
+        "allow_borrow": True,
+        "require_borrow": True,
+    },
+}
+
+
+def add_sub_profile(level: int) -> dict:
+    safe_level = min(max(level, 1), TOTAL_LEVELS)
+    return ADD_SUB_LEVEL_PROFILES.get(safe_level, ADD_SUB_LEVEL_PROFILES[TOTAL_LEVELS])
+
+
+def generate_add_sub_exercise(level: int):
+    profile = add_sub_profile(level)
+    op = random.choices(profile["ops"], weights=profile["op_weights"], k=1)[0]
+
+    a_min, a_max = profile["a_range"]
+    b_min, b_max = profile["b_range"]
+
+    if op == "+":
+        for _ in range(50):
+            a = random.randint(a_min, a_max)
+            b = random.randint(b_min, b_max)
+            if a + b <= profile["sum_max"]:
+                return {"a": a, "b": b, "op": op, "answer": a + b}
+
+        a = min(a_max, profile["sum_max"] - b_min)
+        a = max(a, a_min)
+        b = min(b_max, profile["sum_max"] - a)
+        b = max(b, b_min)
+        if a + b > profile["sum_max"]:
+            b = max(1, profile["sum_max"] - a)
+        return {"a": a, "b": b, "op": op, "answer": a + b}
+
+    allow_borrow = profile.get("allow_borrow", True)
+    require_borrow = profile.get("require_borrow", False)
+
+    for _ in range(80):
+        a = random.randint(a_min, a_max)
+        b = random.randint(b_min, min(b_max, a))
+
+        if not allow_borrow and (a % 10 < b % 10):
+            continue
+        if require_borrow and (a % 10 >= b % 10):
+            continue
+
+        return {"a": a, "b": b, "op": op, "answer": a - b}
+
+    a = max(a_min, b_min + 1)
+    a = min(a, a_max)
+    b = min(b_max, max(b_min, 1))
+    if b > a:
+        b = a
+
+    if require_borrow and a % 10 >= b % 10:
+        desired_b = (a % 10) + 1
+        if desired_b <= b_max and desired_b <= a:
+            b = max(desired_b, b_min)
+
+    return {"a": a, "b": b, "op": op, "answer": a - b}
+
+
 def level_settings(mode: str, level: int):
     if mode == "add_sub":
-        if level <= 3:
-            return {"max_num": 20, "ops": ["+"], "count": 3}
-        if level <= 6:
-            return {"max_num": 50, "ops": ["+", "-"], "count": 3}
-        if level <= 8:
-            return {"max_num": 80, "ops": ["+", "-"], "count": 4}
-        return {"max_num": 100, "ops": ["+", "-"], "count": 5}
+        profile = add_sub_profile(level)
+        return {"count": profile["count"]}
 
     if level <= 3:
         return {"max_factor": 5, "count": 3}
@@ -674,20 +820,10 @@ def level_settings(mode: str, level: int):
 
 
 def generate_exercise(mode: str, level: int):
-    settings = level_settings(mode, level)
-
     if mode == "add_sub":
-        max_num = settings["max_num"]
-        op = random.choice(settings["ops"])
-        if op == "+":
-            a = random.randint(0, max_num)
-            b = random.randint(0, min(max_num, 100 - a))
-            answer = a + b
-        else:
-            a = random.randint(0, max_num)
-            b = random.randint(0, a)
-            answer = a - b
-        return {"a": a, "b": b, "op": op, "answer": answer}
+        return generate_add_sub_exercise(level)
+
+    settings = level_settings(mode, level)
 
     max_factor = settings["max_factor"]
     a = random.randint(1, max_factor)
