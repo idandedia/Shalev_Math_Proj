@@ -275,6 +275,8 @@ st.markdown(
         font-size: 2.05rem;
         font-weight: 900;
         text-align: center;
+        direction: ltr;
+        unicode-bidi: isolate-override;
         padding: 0.82rem;
         border-radius: 18px;
         background: linear-gradient(180deg, #fff8dc 0%, #fff2bf 100%);
@@ -1177,7 +1179,7 @@ def render_mode_tab(mode: str):
     if exercise["op"] == "+":
         operator = " + "
     elif exercise["op"] == "-":
-        operator = " − "
+        operator = " - "
     else:
         operator = " × "
 
